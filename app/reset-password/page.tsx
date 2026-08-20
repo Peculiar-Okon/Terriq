@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { TerrIQLogo } from "@/components/brands/terriq-logo";
 import { createClient } from "@/lib/supabase/client";
@@ -49,13 +49,11 @@ function isStrongPassword(password: string) {
   );
 }
 
-export default function ResetPasswordPage() {
+function ResetPasswordContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
   const email = searchParams.get("email") ?? "";
-
-  const supabase = createClient();
 
   const [otp, setOtp] = useState("");
   const [password, setPassword] = useState("");
@@ -86,6 +84,8 @@ export default function ResetPasswordPage() {
       setLoading(false);
       return;
     }
+
+    const supabase = createClient();
 
     const { error } = await supabase.auth.verifyOtp({
       email,
@@ -121,6 +121,8 @@ export default function ResetPasswordPage() {
     }
 
     setLoading(true);
+
+    const supabase = createClient();
 
     const { error } = await supabase.auth.updateUser({
       password,
@@ -337,5 +339,13 @@ export default function ResetPasswordPage() {
         )}
       </div>
     </main>
+  );
+}
+
+export default function ResetPasswordPage() {
+  return (
+    <Suspense fallback={null}>
+      <ResetPasswordContent />
+    </Suspense>
   );
 }

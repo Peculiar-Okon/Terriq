@@ -52,7 +52,6 @@ function isStrongPassword(password: string) {
 
 export default function SignupPage() {
   const router = useRouter();
-  const supabase = createClient();
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -88,6 +87,8 @@ export default function SignupPage() {
     }
 
     setLoading(true);
+
+    const supabase = createClient();
 
     const { data, error } = await supabase.auth.signUp({
       email,

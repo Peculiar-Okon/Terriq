@@ -1,17 +1,15 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { TerrIQLogo } from "@/components/brands/terriq-logo";
 import { createClient } from "@/lib/supabase/client";
 
-export default function VerifyEmailPage() {
+function VerifyEmailContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
   const email = searchParams.get("email") ?? "";
-
-  const supabase = createClient();
 
   const [otp, setOtp] = useState("");
   const [loading, setLoading] = useState(false);
@@ -24,6 +22,8 @@ export default function VerifyEmailPage() {
 
     setLoading(true);
     setError("");
+
+    const supabase = createClient();
 
     const { error } = await supabase.auth.verifyOtp({
       email,
@@ -43,6 +43,8 @@ export default function VerifyEmailPage() {
   async function resendOtp() {
     setResending(true);
     setError("");
+
+    const supabase = createClient();
 
     const { error } = await supabase.auth.resend({
       type: "signup",
@@ -117,5 +119,13 @@ export default function VerifyEmailPage() {
         </div>
       </div>
     </main>
+  );
+}
+
+export default function VerifyEmailPage() {
+  return (
+    <Suspense fallback={null}>
+      <VerifyEmailContent />
+    </Suspense>
   );
 }

@@ -165,13 +165,14 @@ type Profile = {
 
 export default function SnapshotPage() {
   const router = useRouter();
-  const supabase = createClient();
 
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function loadProfile() {
+      const supabase = createClient();
+
       const {
         data: { user },
       } = await supabase.auth.getUser();
@@ -197,7 +198,7 @@ export default function SnapshotPage() {
     }
 
     loadProfile();
-  }, [router, supabase]);
+  }, [router]);
 
   if (loading) {
     return (

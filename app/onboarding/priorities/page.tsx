@@ -24,7 +24,6 @@ const contexts = [
 
 export default function PrioritiesPage() {
   const router = useRouter();
-  const supabase = createClient();
 
   const [selectedGoals, setSelectedGoals] = useState<string[]>([]);
   const [usageContext, setUsageContext] = useState("");
@@ -54,6 +53,8 @@ export default function PrioritiesPage() {
 
     setLoading(true);
     setError("");
+
+    const supabase = createClient();
 
     const {
       data: { user },

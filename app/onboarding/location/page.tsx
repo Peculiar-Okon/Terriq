@@ -152,7 +152,6 @@ const interests = [
 
 export default function LocationPage() {
   const router = useRouter();
-  const supabase = createClient();
 
   const [country, setCountry] = useState("Nigeria");
   const [state, setState] = useState("");
@@ -196,6 +195,8 @@ export default function LocationPage() {
         // Location permission is optional.
       }
     }
+
+    const supabase = createClient();
 
     const {
       data: { user },
