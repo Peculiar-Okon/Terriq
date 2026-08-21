@@ -1,3 +1,5 @@
+export type Priority = "High" | "Medium" | "Low";
+
 export type SiteStatus = "Active" | "Assessment";
 
 export type SiteExposure = "Low" | "Moderate" | "Elevated" | "High";
