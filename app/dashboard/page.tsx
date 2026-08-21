@@ -1,17 +1,15 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
+import { useState } from "react";
 
 import {
   ArrowRight,
   Bell,
   ChevronRight,
   Location,
-
   TrendingUp,
 } from "@/components/icons/terr-iq-icons";
-
 
 import { SiteSwitcher } from "@/components/dashboard/site-switcher";
 
@@ -27,10 +25,13 @@ export default function DashboardPage() {
   const site =
     sites.find((item) => item.id === selectedSite) ?? sites[0];
 
-  const data = overviewData[selectedSite as keyof typeof overviewData];
+  const data =
+    overviewData[selectedSite as keyof typeof overviewData];
 
   const completedPercentage =
-    (data.plan.completed / data.plan.total) * 100;
+    data.plan.total > 0
+      ? (data.plan.completed / data.plan.total) * 100
+      : 0;
 
   const priorityStyles: Record<Priority, string> = {
     High: "text-[#B66A45]",
@@ -40,14 +41,10 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-[#F5F3ED] text-[#171A17]">
-
-
       <main className="min-h-screen">
         {/* Top bar */}
         <header className="sticky top-0 z-30 flex h-[72px] items-center justify-between border-b border-[#D9D7CE] bg-[#F5F3ED]/95 px-6 backdrop-blur lg:px-10">
-          <div className="flex items-center gap-3">
-
-
+          <div>
             <span className="text-sm font-medium text-[#171A17]">
               Overview
             </span>
@@ -59,15 +56,17 @@ export default function DashboardPage() {
               onChange={setSelectedSite}
             />
 
-            <button
-              type="button"
+            <Link
+              href="/dashboard/alerts"
               className="relative flex h-9 w-9 items-center justify-center text-[#6D7069] transition hover:text-[#171A17]"
-              aria-label="Notifications"
+              aria-label="Alerts"
             >
               <Bell size={18} />
 
-              <span className="absolute right-1.5 top-1.5 h-1.5 w-1.5 bg-[#B66A45]" />
-            </button>
+              {data.concerns.length > 0 && (
+                <span className="absolute right-1.5 top-1.5 h-1.5 w-1.5 bg-[#B66A45]" />
+              )}
+            </Link>
 
             <div className="hidden h-8 w-8 items-center justify-center bg-[#23483A] text-xs font-medium text-white sm:flex">
               P
@@ -75,36 +74,47 @@ export default function DashboardPage() {
           </div>
         </header>
 
-        {/* <div className="mx-auto max-w-[1400px] px-6 py-10 lg:px-10 lg:py-14"> */}
         <div className="w-full px-6 py-10 lg:px-10 lg:py-14">
-          {/* Intro */}
+          {/* ========================================================= */}
+          {/* INTRO */}
+          {/* ========================================================= */}
+
           <section>
             <p className="text-sm font-medium uppercase tracking-[0.14em] text-[#B66A45]">
-              Site overview
+              Operational intelligence
             </p>
 
             <h1 className="mt-3 text-4xl font-semibold tracking-[-0.045em] sm:text-5xl">
               Good morning, Pearl
             </h1>
 
-            <p className="mt-3 text-base leading-7 text-[#6D7069]">
-              Here&apos;s what could affect your operation.
+            <p className="mt-3 max-w-2xl text-base leading-7 text-[#6D7069]">
+              Environmental conditions translated into what they could
+              mean for your sites, operations, and decisions.
             </p>
           </section>
 
-          {/* Monitoring */}
+          {/* ========================================================= */}
+          {/* CURRENT ENVIRONMENTAL PICTURE */}
+          {/* ========================================================= */}
+
           <section className="mt-10 border border-[#D9D7CE] bg-[#FBFAF6]">
             <div className="border-b border-[#D9D7CE] px-6 py-4">
               <p className="text-xs font-medium uppercase tracking-[0.15em] text-[#92958D]">
-                Monitoring
+                Current environmental picture
               </p>
             </div>
 
-            <div className="grid lg:grid-cols-[1.3fr_1fr]">
-              <div className="p-6 lg:p-8">
+            <div className="grid lg:grid-cols-[1fr_1.2fr]">
+              {/* Site identity */}
+              <div className="border-b border-[#D9D7CE] p-6 lg:border-b-0 lg:border-r lg:p-8">
                 <div className="flex items-start justify-between gap-6">
                   <div>
-                    <h2 className="text-2xl font-medium tracking-[-0.03em]">
+                    <p className="text-xs uppercase tracking-[0.12em] text-[#92958D]">
+                      Monitoring
+                    </p>
+
+                    <h2 className="mt-4 text-2xl font-medium tracking-[-0.03em]">
                       {site.name}
                     </h2>
 
@@ -117,79 +127,80 @@ export default function DashboardPage() {
                       {site.type}
                     </p>
                   </div>
-
-                  <button
-                    type="button"
-                    onClick={() => setSelectedSite(selectedSite)}
-                    className="hidden text-sm font-medium text-[#23483A] sm:block"
-                  >
-                    Change site →
-                  </button>
                 </div>
+
+                <Link
+                  href={`/dashboard/sites/${site.id}`}
+                  className="mt-8 inline-flex items-center gap-2 text-sm font-medium text-[#23483A]"
+                >
+                  Open site
+                  <ArrowRight size={15} />
+                </Link>
               </div>
 
-              <div className="grid grid-cols-2 border-t border-[#D9D7CE] lg:border-l lg:border-t-0">
-                <div className="border-r border-[#D9D7CE] p-6">
-                  <p className="text-xs uppercase tracking-[0.12em] text-[#92958D]">
-                    Current
-                  </p>
+              {/* Intelligence */}
+              <div className="p-6 lg:p-8">
+                <div className="flex items-start justify-between gap-6">
+                  <div>
+                    <p className="text-xs uppercase tracking-[0.12em] text-[#92958D]">
+                      Exposure
+                    </p>
 
-                  <p className="mt-3 text-3xl font-medium tracking-[-0.04em]">
-                    {site.currentTemperature}°C
-                  </p>
+                    <p className="mt-3 text-3xl font-medium tracking-[-0.04em]">
+                      {site.exposure}
+                    </p>
+                  </div>
+
+                  <TrendingUp
+                    size={18}
+                    className="text-[#B66A45]"
+                  />
                 </div>
 
-                <div className="p-6">
+                <div className="mt-8 border-t border-[#D9D7CE] pt-5">
                   <p className="text-xs uppercase tracking-[0.12em] text-[#92958D]">
-                    Humidity
+                    What this could mean
                   </p>
 
-                  <p className="mt-3 text-3xl font-medium tracking-[-0.04em]">
-                    {site.humidity}%
-                  </p>
-                </div>
-
-                <div className="border-r border-t border-[#D9D7CE] p-6">
-                  <p className="text-xs uppercase tracking-[0.12em] text-[#92958D]">
-                    Rainfall
-                  </p>
-
-                  <p className="mt-3 text-lg font-medium text-[#B66A45]">
-                    {site.rainfall}
-                  </p>
-                </div>
-
-                <div className="border-t border-[#D9D7CE] p-6">
-                  <p className="text-xs uppercase tracking-[0.12em] text-[#92958D]">
-                    Conditions
-                  </p>
-
-                  <p className="mt-3 text-lg font-medium">
-                    {site.exposure}
+                  <p className="mt-3 max-w-2xl text-sm leading-7 text-[#4F554F]">
+                    {data.concerns.length > 0
+                      ? `${data.concerns.length} environmental condition${
+                          data.concerns.length === 1 ? "" : "s"
+                        } currently deserve attention because they may affect how this site operates.`
+                      : "No major environmental concern currently requires action."}
                   </p>
                 </div>
               </div>
             </div>
           </section>
 
-          {/* Attention */}
+          {/* ========================================================= */}
+          {/* ATTENTION */}
+          {/* ========================================================= */}
+
           <section className="mt-14">
             <div className="flex items-end justify-between gap-4">
               <div>
                 <p className="text-xs font-medium uppercase tracking-[0.15em] text-[#B66A45]">
-                  Attention required
+                  What needs attention
                 </p>
 
                 <h2 className="mt-2 text-2xl font-medium tracking-[-0.03em]">
-                  What may need action
+                  Environmental conditions that could affect you
                 </h2>
+
+                <p className="mt-2 max-w-2xl text-sm leading-6 text-[#6D7069]">
+                  TerrIQ prioritizes conditions based on their potential
+                  effect on your business, not just how unusual the
+                  weather looks.
+                </p>
               </div>
 
               <Link
                 href="/dashboard/alerts"
                 className="hidden items-center gap-1 text-sm font-medium text-[#23483A] sm:flex"
               >
-                {data.concerns.length} concerns
+                View all alerts
                 <ArrowRight size={15} />
               </Link>
             </div>
@@ -206,7 +217,9 @@ export default function DashboardPage() {
                     </span>
 
                     <span
-                      className={`text-xs font-medium ${priorityStyles[concern.priority]}`}
+                      className={`text-xs font-medium ${
+                        priorityStyles[concern.priority]
+                      }`}
                     >
                       {concern.priority} priority
                     </span>
@@ -222,7 +235,7 @@ export default function DashboardPage() {
 
                   <div className="mt-8 border-t border-[#D9D7CE] pt-5">
                     <p className="text-xs uppercase tracking-[0.12em] text-[#92958D]">
-                      May affect
+                      Potential business impact
                     </p>
 
                     <p className="mt-2 text-sm leading-6 text-[#4F554F]">
@@ -230,8 +243,8 @@ export default function DashboardPage() {
                     </p>
                   </div>
 
-                  <button
-                    type="button"
+                  <Link
+                    href="/dashboard/alerts"
                     className="mt-8 inline-flex items-center gap-2 text-sm font-medium text-[#23483A]"
                   >
                     Review
@@ -239,22 +252,31 @@ export default function DashboardPage() {
                       size={15}
                       className="transition-transform group-hover:translate-x-1"
                     />
-                  </button>
+                  </Link>
                 </article>
               ))}
             </div>
           </section>
 
-          {/* Conditions */}
+          {/* ========================================================= */}
+          {/* CONDITIONS → CONSEQUENCES */}
+          {/* ========================================================= */}
+
           <section className="mt-16">
             <div>
               <p className="text-xs font-medium uppercase tracking-[0.15em] text-[#B66A45]">
-                Environmental conditions
+                Environmental intelligence
               </p>
 
               <h2 className="mt-2 text-2xl font-medium tracking-[-0.03em]">
-                Conditions affecting your site
+                What the conditions could affect
               </h2>
+
+              <p className="mt-2 max-w-2xl text-sm leading-6 text-[#6D7069]">
+                Instead of stopping at temperature and rainfall, TerrIQ
+                connects environmental signals to the parts of your
+                business that matter.
+              </p>
             </div>
 
             <div className="mt-6 grid gap-px overflow-hidden border border-[#D9D7CE] bg-[#D9D7CE] md:grid-cols-2">
@@ -299,32 +321,35 @@ export default function DashboardPage() {
                     </div>
                   </div>
 
-                  <button
-                    type="button"
+                  <Link
+                    href={`/dashboard/sites/${site.id}`}
                     className="mt-7 inline-flex items-center gap-2 text-sm font-medium text-[#23483A]"
                   >
-                    View assessment
+                    View site evidence
                     <ArrowRight size={15} />
-                  </button>
+                  </Link>
                 </article>
               ))}
             </div>
           </section>
 
-          {/* Outlook */}
+          {/* ========================================================= */}
+          {/* OPERATIONAL OUTLOOK */}
+          {/* ========================================================= */}
+
           <section className="mt-16">
             <div>
               <p className="text-xs font-medium uppercase tracking-[0.15em] text-[#B66A45]">
-                Environmental outlook
+                Operational outlook
               </p>
 
               <h2 className="mt-2 text-2xl font-medium tracking-[-0.03em]">
-                The next 7 days
+                What could change over the next 7 days
               </h2>
 
-              <p className="mt-2 text-sm leading-6 text-[#6D7069]">
-                Environmental conditions translated into what they could
-                mean for this operation.
+              <p className="mt-2 max-w-2xl text-sm leading-6 text-[#6D7069]">
+                A forward view of environmental conditions and the
+                operational pressure they may create.
               </p>
             </div>
 
@@ -334,7 +359,9 @@ export default function DashboardPage() {
                   <div
                     key={day.day}
                     className={`p-5 ${
-                      index === 0 ? "bg-[#23483A] text-[#F5F3ED]" : ""
+                      index === 0
+                        ? "bg-[#23483A] text-[#F5F3ED]"
+                        : ""
                     }`}
                   >
                     <p
@@ -376,9 +403,22 @@ export default function DashboardPage() {
                 ))}
               </div>
             </div>
+
+            <div className="mt-4 flex justify-end">
+              <Link
+                href={`/dashboard/sites/${site.id}`}
+                className="inline-flex items-center gap-2 text-sm font-medium text-[#23483A]"
+              >
+                View detailed environmental history
+                <ArrowRight size={15} />
+              </Link>
+            </div>
           </section>
 
-          {/* Actions */}
+          {/* ========================================================= */}
+          {/* RECOMMENDED ACTIONS */}
+          {/* ========================================================= */}
+
           <section className="mt-16">
             <div className="flex items-end justify-between">
               <div>
@@ -387,8 +427,13 @@ export default function DashboardPage() {
                 </p>
 
                 <h2 className="mt-2 text-2xl font-medium tracking-[-0.03em]">
-                  Recommended actions
+                  What you can do now
                 </h2>
+
+                <p className="mt-2 text-sm leading-6 text-[#6D7069]">
+                  Recommendations turn environmental intelligence
+                  into concrete decisions.
+                </p>
               </div>
 
               <Link
@@ -415,7 +460,9 @@ export default function DashboardPage() {
                   </p>
 
                   <span
-                    className={`text-xs font-medium ${priorityStyles[action.priority]}`}
+                    className={`text-xs font-medium ${
+                      priorityStyles[action.priority]
+                    }`}
                   >
                     {action.priority}
                   </span>
@@ -433,11 +480,30 @@ export default function DashboardPage() {
             </div>
           </section>
 
-          {/* Active plan */}
-          <section className="mt-16 pb-16">
-            <p className="text-xs font-medium uppercase tracking-[0.15em] text-[#B66A45]">
-              Active plan
-            </p>
+          {/* ========================================================= */}
+          {/* ACTIVE PLAN */}
+          {/* ========================================================= */}
+
+          <section className="mt-16">
+            <div className="flex items-end justify-between">
+              <div>
+                <p className="text-xs font-medium uppercase tracking-[0.15em] text-[#B66A45]">
+                  Execution
+                </p>
+
+                <h2 className="mt-2 text-2xl font-medium tracking-[-0.03em]">
+                  Active resilience plan
+                </h2>
+              </div>
+
+              <Link
+                href="/dashboard/plans"
+                className="hidden items-center gap-1 text-sm font-medium text-[#23483A] sm:flex"
+              >
+                All plans
+                <ArrowRight size={15} />
+              </Link>
+            </div>
 
             <div className="mt-6 border border-[#23483A] bg-[#23483A] p-7 text-[#F5F3ED] lg:p-8">
               <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
@@ -449,8 +515,8 @@ export default function DashboardPage() {
                   <div className="mt-7">
                     <div className="flex items-center justify-between text-xs text-[#A9B9AF]">
                       <span>
-                        {data.plan.completed} of {data.plan.total} actions
-                        completed
+                        {data.plan.completed} of {data.plan.total}{" "}
+                        actions completed
                       </span>
 
                       <span>
@@ -489,6 +555,120 @@ export default function DashboardPage() {
                   </Link>
                 </div>
               </div>
+            </div>
+          </section>
+
+          {/* ========================================================= */}
+          {/* TERRIQ NAVIGATION */}
+          {/* ========================================================= */}
+
+          <section className="mt-20 border-t border-[#D9D7CE] pt-12 pb-16">
+            <div>
+              <p className="text-xs font-medium uppercase tracking-[0.15em] text-[#B66A45]">
+                Go deeper
+              </p>
+
+              <h2 className="mt-2 text-2xl font-medium tracking-[-0.03em]">
+                What are you trying to do?
+              </h2>
+
+              <p className="mt-2 max-w-2xl text-sm leading-6 text-[#6D7069]">
+                The overview gives you the signal. These areas give you
+                the tools to investigate, decide, and act.
+              </p>
+            </div>
+
+            <div className="mt-6 grid gap-px overflow-hidden border border-[#D9D7CE] bg-[#D9D7CE] sm:grid-cols-2 lg:grid-cols-4">
+              <Link
+                href="/dashboard/sites"
+                className="group bg-[#FBFAF6] p-7 transition hover:bg-white"
+              >
+                <p className="text-xs uppercase tracking-[0.12em] text-[#92958D]">
+                  Monitor
+                </p>
+
+                <h3 className="mt-8 text-xl font-medium">
+                  Sites
+                </h3>
+
+                <p className="mt-2 text-sm leading-6 text-[#6D7069]">
+                  Monitor environmental exposure across your locations.
+                </p>
+
+                <ArrowRight
+                  size={16}
+                  className="mt-7 text-[#23483A] transition-transform group-hover:translate-x-1"
+                />
+              </Link>
+
+              <Link
+                href="/dashboard/operations"
+                className="group bg-[#FBFAF6] p-7 transition hover:bg-white"
+              >
+                <p className="text-xs uppercase tracking-[0.12em] text-[#92958D]">
+                  Operate
+                </p>
+
+                <h3 className="mt-8 text-xl font-medium">
+                  Operations
+                </h3>
+
+                <p className="mt-2 text-sm leading-6 text-[#6D7069]">
+                  See how environmental conditions could disrupt
+                  business activities.
+                </p>
+
+                <ArrowRight
+                  size={16}
+                  className="mt-7 text-[#23483A] transition-transform group-hover:translate-x-1"
+                />
+              </Link>
+
+              <Link
+                href="/dashboard/assess"
+                className="group bg-[#FBFAF6] p-7 transition hover:bg-white"
+              >
+                <p className="text-xs uppercase tracking-[0.12em] text-[#92958D]">
+                  Decide
+                </p>
+
+                <h3 className="mt-8 text-xl font-medium">
+                  Assess
+                </h3>
+
+                <p className="mt-2 text-sm leading-6 text-[#6D7069]">
+                  Evaluate a location before you build, acquire,
+                  store, or operate there.
+                </p>
+
+                <ArrowRight
+                  size={16}
+                  className="mt-7 text-[#23483A] transition-transform group-hover:translate-x-1"
+                />
+              </Link>
+
+              <Link
+                href="/dashboard/plans"
+                className="group bg-[#FBFAF6] p-7 transition hover:bg-white"
+              >
+                <p className="text-xs uppercase tracking-[0.12em] text-[#92958D]">
+                  Execute
+                </p>
+
+                <h3 className="mt-8 text-xl font-medium">
+                  Plans
+                </h3>
+
+                <p className="mt-2 text-sm leading-6 text-[#6D7069]">
+                  Turn recommendations into budgets, actions, and
+                  measurable resilience.
+                </p>
+
+                <ArrowRight
+                  size={16}
+                  className="mt-7 text-[#23483A] transition-transform group-hover:translate-x-1"
+                />
+              </Link>
             </div>
           </section>
         </div>

@@ -14,7 +14,7 @@ const navigation = [
 ];
 
 const workspaceNavigation = [
-  { label: "Workspace", href: "/dashboard/workspace" },
+
   { label: "Settings", href: "/dashboard/settings" },
   { label: "Help", href: "/dashboard/help" },
 ];
