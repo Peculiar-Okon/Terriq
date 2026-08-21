@@ -196,7 +196,7 @@ export default function LoginPage() {
       if (profile?.onboarding_completed) {
         router.push("/dashboard");
       } else {
-        router.push("/onboarding/location");
+        router.push("/onboarding/Use-case");
       }
     }
 
@@ -215,17 +215,18 @@ export default function LoginPage() {
           </p>
 
             <h1 className="mt-4 text-5xl font-medium leading-[1.05] tracking-[-0.04em] text-[#F5F3ED]">
-            Stay informed about what&apos;s happening around you.
+              See what&apos;s changing around your sites and operations.
             </h1>
 
             <p className="mt-6 max-w-sm text-base leading-7 text-[#C7D1CB]">
-            Return to TerrIQ to see environmental conditions, emerging risks,
-            and practical actions for your area.
+              Check environmental conditions, understand what they could affect, and
+              make better decisions before risk reaches your site or operations.
             </p>
             </div>
-        <p className="text-xs text-[#A9B9AF]">
-          Environmental intelligence, made practical.
-        </p>
+
+            <p className="text-xs text-[#A9B9AF]">
+              Environmental conditions. Better decisions.
+            </p>
       </div>
 
       {/* Right panel */}
@@ -241,13 +242,13 @@ export default function LoginPage() {
               Welcome back
             </p>
 
-            <h2 className="mt-3 text-4xl font-medium tracking-[-0.04em] text-[#1D2822]">
-              Sign in to TerrIQ.
-            </h2>
+              <h2 className="mt-3 text-4xl font-medium tracking-[-0.04em] text-[#1D2822]">
+                Welcome back to TerrIQ.
+              </h2>
 
-            <p className="mt-3 text-sm leading-6 text-[#6B746E]">
-              Access your profile, recommendations, and plans.
-            </p>
+              <p className="mt-3 text-sm leading-6 text-[#6B746E]">
+                See what has changed around your sites and operations.
+              </p>
           </div>
 
           <form onSubmit={handleLogin} className="mt-8 space-y-5">

@@ -37,7 +37,7 @@ function VerifyEmailContent() {
       return;
     }
 
-    router.push("/onboarding/location");
+    router.push("/onboarding/Use-case");
   }
 
   async function resendOtp() {

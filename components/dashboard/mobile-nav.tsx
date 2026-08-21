@@ -2,19 +2,21 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { TerrIQLogo } from "@/components/brands/terriq-logo";
 
 const navigation = [
   { label: "Overview", href: "/dashboard" },
-  // Insights removed from mobile-nav
+  { label: "Sites", href: "/dashboard/sites" },
+  { label: "Operations", href: "/dashboard/operations" },
+  { label: "Assess", href: "/dashboard/assess" },
+  { label: "Plans", href: "/dashboard/plans" },
   { label: "Alerts", href: "/dashboard/alerts" },
-  { label: "Actions", href: "/dashboard/actions" },
-  { label: "Places", href: "/dashboard/places" },
+  { label: "Local Resources", href: "/dashboard/resources" },
 ];
 
-const secondaryNavigation = [
-  { label: "Saved", href: "/dashboard/saved" },
+const workspaceNavigation = [
+  { label: "Workspace", href: "/dashboard/workspace" },
   { label: "Settings", href: "/dashboard/settings" },
+  { label: "Help", href: "/dashboard/help" },
 ];
 
 export function MobileNav() {
@@ -23,7 +25,11 @@ export function MobileNav() {
   return (
     <>
       <header className="flex h-16 items-center justify-between border-b border-[#D9D7CE] bg-[#F5F3ED] px-5 lg:hidden">
-        <TerrIQLogo />
+        <Link href="/dashboard">
+          <span className="text-[18px] font-semibold tracking-[-0.03em] text-[#171A17]">
+            Terr<span className="text-[#B66A45]">IQ</span>
+          </span>
+        </Link>
 
         <button
           type="button"
@@ -55,9 +61,13 @@ export function MobileNav() {
             className="absolute inset-0 bg-[#171A17]/20"
           />
 
-          <aside className="relative h-full w-[280px] bg-[#F5F3ED] px-6 py-7 shadow-xl">
+          <aside className="relative h-full w-[280px] bg-[#F5F3ED] px-5 py-6 shadow-xl">
             <div className="flex items-center justify-between">
-              <TerrIQLogo />
+              <Link href="/dashboard" onClick={() => setOpen(false)}>
+                <span className="text-[18px] font-semibold tracking-[-0.03em] text-[#171A17]">
+                  Terr<span className="text-[#B66A45]">IQ</span>
+                </span>
+              </Link>
 
               <button
                 type="button"
@@ -79,13 +89,17 @@ export function MobileNav() {
               </button>
             </div>
 
-            <nav className="mt-10 space-y-1">
+            <p className="mt-2 text-[10px] uppercase tracking-[0.15em] text-[#92958D]">
+              Environmental Intelligence
+            </p>
+
+            <nav className="mt-6 flex-1 overflow-y-auto">
               {navigation.map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
                   onClick={() => setOpen(false)}
-                  className="block px-3 py-3 text-sm text-[#6D7069] transition hover:bg-[#E7E9E2] hover:text-[#23483A]"
+                  className="block px-3 py-2.5 text-[13px] text-[#6D7069] transition hover:bg-[#E7E9E2] hover:text-[#23483A]"
                 >
                   {item.label}
                 </Link>
@@ -93,25 +107,22 @@ export function MobileNav() {
 
               <div className="my-4 border-t border-[#D9D7CE]" />
 
-              {secondaryNavigation.map((item) => (
+              {workspaceNavigation.map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
                   onClick={() => setOpen(false)}
-                  className="block px-3 py-3 text-sm text-[#6D7069] transition hover:bg-[#E7E9E2] hover:text-[#23483A]"
+                  className="block px-3 py-2.5 text-[13px] text-[#6D7069] transition hover:bg-[#E7E9E2] hover:text-[#23483A]"
                 >
                   {item.label}
                 </Link>
               ))}
             </nav>
 
-            <div className="absolute bottom-7 left-6 right-6 border-t border-[#D9D7CE] pt-5">
-              <p className="text-sm font-medium text-[#26332B]">
-                Your environment
-              </p>
-
-              <p className="mt-1 text-xs text-[#7B8079]">
-                Lagos, Nigeria
+            <div className="absolute bottom-6 left-5 right-5 border-t border-[#D9D7CE] pt-4">
+              <p className="text-[13px] font-medium text-[#26332B]">Pearl</p>
+              <p className="mt-0.5 text-[11px] text-[#7B8079]">
+                Personal workspace
               </p>
             </div>
           </aside>

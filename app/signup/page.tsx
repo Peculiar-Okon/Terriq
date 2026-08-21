@@ -121,23 +121,25 @@ export default function SignupPage() {
 
         <div className="max-w-md">
           <p className="text-sm uppercase tracking-[0.15em] text-[#A9B9AF]">
-            Start here
+            Set up your workspace
           </p>
 
-            <h1 className="mt-4 text-5xl font-medium leading-[1.05] tracking-[-0.04em] text-[#F5F3ED]">
-            Understand your environment. Know what to do next.
-            </h1>
+          <h1 className="mt-4 text-5xl font-medium leading-[1.05] tracking-[-0.04em] text-[#F5F3ED]">
+            Start making better decisions around your sites and operations.
+          </h1>
 
-            <p className="mt-6 max-w-sm text-base leading-7 text-[#C7D1CB]">
-            TerrIQ turns environmental conditions around you into clear insights
-            and practical actions for the things that matter to you.
-            </p>
+          <p className="mt-6 max-w-sm text-base leading-7 text-[#C7D1CB]">
+            TerrIQ helps you understand environmental conditions around a place,
+            identify what they could affect, and decide what to do before they become
+            costly problems.
+          </p>
         </div>
 
         <p className="text-xs text-[#A9B9AF]">
-          Environmental intelligence, made practical.
+          For sites, businesses, and the decisions around them.
         </p>
       </div>
+      
 
       {/* Right side */}
       <div className="flex w-full items-center justify-center px-6 py-12 lg:w-1/2">
