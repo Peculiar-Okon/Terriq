@@ -2,8 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { motion } from "framer-motion";
 import { createClient } from "@/lib/supabase/client";
 import { TerrIQLogo } from "@/components/brands/terriq-logo";
+import { StepReveal } from "@/components/onboarding/onboarding-motion";
 
 type Place = {
   id: string;
@@ -130,11 +132,16 @@ export default function SnapshotPage() {
 
   if (loading) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-[#F5F3ED]">
-        <p className="text-sm text-[#6D7069]">
+      <div className="flex min-h-screen items-center justify-center">
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: [0.4, 1, 0.4] }}
+          transition={{ duration: 1.6, repeat: Infinity }}
+          className="text-sm text-[#6D7069]"
+        >
           Preparing your TerrIQ setup...
-        </p>
-      </main>
+        </motion.p>
+      </div>
     );
   }
 
@@ -161,34 +168,38 @@ export default function SnapshotPage() {
       : place.place_type;
 
   return (
-    <main className="min-h-screen bg-[#F5F3ED]">
-      <div className="mx-auto flex min-h-screen max-w-3xl flex-col px-6 py-8">
-        <TerrIQLogo />
+    <div className="mx-auto flex min-h-screen max-w-3xl flex-col px-6 py-8">
+      <TerrIQLogo />
 
-        <div className="mt-16 flex-1 pb-10">
-          <div className="mb-10">
-            <p className="text-sm font-medium uppercase tracking-[0.15em] text-[#B66A45]">
-              03 / 03 · Your setup
-            </p>
+      <div className="mt-10 flex-1 pb-10 sm:mt-16">
+        <StepReveal className="mb-8 sm:mb-10">
+          <p className="text-xs font-medium uppercase tracking-[0.15em] text-[#B66A45] sm:text-sm">
+            03 / 03 · Your setup
+          </p>
 
-            <h1 className="mt-4 text-4xl font-medium tracking-[-0.04em] text-[#171A17] sm:text-5xl">
-              TerrIQ knows where to start.
-            </h1>
+          <h1 className="mt-3 text-2xl font-medium tracking-[-0.03em] text-[#171A17] sm:mt-4 sm:text-5xl sm:tracking-[-0.04em]">
+            TerrIQ knows where to start.
+          </h1>
 
-            <p className="mt-4 max-w-xl text-base leading-7 text-[#6D7069]">
-              We&apos;ll use this place and your priorities to understand
-              environmental conditions that could affect what you&apos;re
-              building or operating.
-            </p>
-          </div>
+          <p className="mt-3 max-w-xl text-sm leading-6 text-[#6D7069] sm:mt-4 sm:text-base sm:leading-7">
+            We'll use this place and your priorities to understand
+            environmental conditions that could affect what you're
+            building or operating.
+          </p>
+        </StepReveal>
 
-          <div className="overflow-hidden rounded-2xl border border-[#D7D8D1] bg-white">
-            <div className="border-b border-[#D7D8D1] px-6 py-6">
+        <StepReveal index={1}>
+          <motion.div
+            whileHover={{ y: -2 }}
+            transition={{ duration: 0.25 }}
+            className="overflow-hidden rounded-2xl border border-[#D7D8D1] bg-white shadow-sm hover:shadow-md"
+          >
+            <div className="border-b border-[#D7D8D1] px-5 py-5 sm:px-6 sm:py-6">
               <p className="text-xs uppercase tracking-[0.15em] text-[#8A8F88]">
                 Your place
               </p>
 
-              <h2 className="mt-2 text-2xl font-medium tracking-[-0.025em] text-[#171A17]">
+              <h2 className="mt-2 text-xl font-medium tracking-[-0.02em] text-[#171A17] sm:text-2xl sm:tracking-[-0.025em]">
                 {place.name}
               </h2>
 
@@ -201,7 +212,7 @@ export default function SnapshotPage() {
               </p>
             </div>
 
-            <div className="px-6 py-6">
+            <div className="px-5 py-5 sm:px-6 sm:py-6">
               <p className="text-xs uppercase tracking-[0.15em] text-[#8A8F88]">
                 Your context
               </p>
@@ -211,31 +222,40 @@ export default function SnapshotPage() {
               </p>
             </div>
 
-            <div className="border-t border-[#D7D8D1] px-6 py-6">
+            <div className="border-t border-[#D7D8D1] px-5 py-5 sm:px-6 sm:py-6">
               <p className="text-xs uppercase tracking-[0.15em] text-[#8A8F88]">
                 What matters here
               </p>
 
               <div className="mt-4 flex flex-wrap gap-2">
-                {priorities.map((item) => (
-                  <span
+                {priorities.map((item, i) => (
+                  <motion.span
                     key={item.priority}
+                    initial={{ opacity: 0, scale: 0.85 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{
+                      duration: 0.35,
+                      delay: 0.4 + i * 0.06,
+                      ease: [0.22, 1, 0.36, 1],
+                    }}
                     className="rounded-full border border-[#D7D8D1] bg-[#F8F8F4] px-3 py-2 text-xs text-[#26332B]"
                   >
                     {item.priority}
-                  </span>
+                  </motion.span>
                 ))}
               </div>
             </div>
-          </div>
+          </motion.div>
+        </StepReveal>
 
-          <div className="mt-6 rounded-2xl bg-[#23483A] p-6 text-[#F5F3ED]">
+        <StepReveal index={2}>
+          <div className="mt-6 rounded-2xl bg-[#23483A] p-5 text-[#F5F3ED] sm:p-6">
             <p className="text-xs uppercase tracking-[0.15em] text-[#A9B9AF]">
               Ready to begin
             </p>
 
-            <h2 className="mt-3 text-2xl font-medium tracking-[-0.025em]">
-              We&apos;ll watch this place for what matters to you.
+            <h2 className="mt-3 text-xl font-medium tracking-[-0.02em] sm:text-2xl sm:tracking-[-0.025em]">
+              We'll watch this place for what matters to you.
             </h2>
 
             <p className="mt-3 max-w-xl text-sm leading-6 text-[#C7D1CB]">
@@ -243,23 +263,27 @@ export default function SnapshotPage() {
               insights, emerging risks, and practical actions.
             </p>
           </div>
+        </StepReveal>
 
-          {error && (
-            <div className="mt-6 rounded-xl border border-[#E8B7B2] bg-[#FDF3F2] px-4 py-3">
-              <p className="text-sm text-[#A9443D]">{error}</p>
-            </div>
-          )}
+        {error && (
+          <div className="mt-6 rounded-xl border border-[#E8B7B2] bg-[#FDF3F2] px-4 py-3">
+            <p className="text-sm text-[#A9443D]">{error}</p>
+          </div>
+        )}
 
-          <button
+        <StepReveal index={3}>
+          <motion.button
             type="button"
             onClick={startMonitoring}
             disabled={starting}
+            whileHover={{ y: -1 }}
+            whileTap={{ scale: 0.99 }}
             className="mt-6 h-12 w-full rounded-xl bg-[#23483A] text-sm font-medium text-white transition hover:bg-[#1B392E] disabled:cursor-not-allowed disabled:opacity-60"
           >
             {starting ? "Starting monitoring..." : "Start monitoring"}
-          </button>
-        </div>
+          </motion.button>
+        </StepReveal>
       </div>
-    </main>
+    </div>
   );
 }

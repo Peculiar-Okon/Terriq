@@ -6,6 +6,8 @@ import {
   ArrowRight,
   ChevronRight,
 } from "@/components/icons/terr-iq-icons";
+import { MobileSidebar } from "@/components/dashboard/mobile-nav";
+import { DashReveal } from "@/components/dashboard/dashboard-motion";
 
 export default function SettingsPage() {
   const [environmentalAlerts, setEnvironmentalAlerts] = useState(true);
@@ -16,25 +18,29 @@ export default function SettingsPage() {
     <div className="min-h-screen bg-[#F5F3ED] text-[#171A17]">
       <main className="min-h-screen">
         {/* Header */}
-        <header className="sticky top-0 z-30 flex h-[72px] items-center justify-between border-b border-[#D9D7CE] bg-[#F5F3ED]/95 px-6 backdrop-blur lg:px-10">
+        <header className="sticky top-0 z-30 flex h-[72px] items-center justify-between border-b border-[#D9D7CE] bg-[#F5F3ED]/95 pl-16 pr-6 backdrop-blur lg:px-10">
+          <MobileSidebar />
+
           <span className="text-sm font-medium">Settings</span>
         </header>
 
-        <div className="w-full px-6 py-10 lg:px-10 lg:py-14">
+        <div className="w-full px-6 py-6 sm:py-10 lg:px-10 lg:py-14">
           {/* Intro */}
-          <section>
-            <p className="text-xs font-medium uppercase tracking-[0.15em] text-[#B66A45]">
-              Configuration
-            </p>
+          <DashReveal>
+            <section>
+              <p className="text-xs font-medium uppercase tracking-[0.15em] text-[#B66A45]">
+                Configuration
+              </p>
 
-            <h1 className="mt-3 text-4xl font-semibold tracking-[-0.045em] sm:text-5xl">
-              Settings
-            </h1>
+              <h1 className="mt-3 text-2xl font-semibold tracking-[-0.04em] sm:text-5xl sm:tracking-[-0.045em]">
+                Settings
+              </h1>
 
-            <p className="mt-3 max-w-xl text-base leading-7 text-[#6D7069]">
-              Manage your workspace, notifications, and account preferences.
-            </p>
-          </section>
+              <p className="mt-2 max-w-xl text-sm leading-6 text-[#6D7069] sm:mt-3 sm:text-base sm:leading-7">
+                Manage your workspace, notifications, and account preferences.
+              </p>
+            </section>
+          </DashReveal>
 
           {/* Workspace */}
           <section className="mt-12 max-w-4xl">

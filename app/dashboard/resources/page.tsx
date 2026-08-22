@@ -1,11 +1,18 @@
 "use client";
 
 import Link from "next/link";
+import { motion } from "framer-motion";
 
 import {
   ArrowRight,
   ChevronDown,
 } from "@/components/icons/terr-iq-icons";
+import { MobileSidebar } from "@/components/dashboard/mobile-nav";
+import {
+  DashReveal,
+  StaggerList,
+  staggerItem,
+} from "@/components/dashboard/dashboard-motion";
 
 type Resource = {
   category: string;
@@ -49,7 +56,9 @@ export default function ResourcesPage() {
     <div className="min-h-screen bg-[#F5F3ED] text-[#171A17]">
       <main className="min-h-screen">
         {/* Header */}
-        <header className="sticky top-0 z-30 flex h-[72px] items-center justify-between border-b border-[#D9D7CE] bg-[#F5F3ED]/95 px-6 backdrop-blur lg:px-10">
+        <header className="sticky top-0 z-30 flex h-[72px] items-center justify-between border-b border-[#D9D7CE] bg-[#F5F3ED]/95 pl-16 pr-6 backdrop-blur lg:px-10">
+          <MobileSidebar />
+
           <span className="text-sm font-medium">Local Resources</span>
 
           <Link
@@ -60,21 +69,23 @@ export default function ResourcesPage() {
           </Link>
         </header>
 
-        <div className="mx-auto max-w-[1180px] px-6 py-10 lg:px-10 lg:py-14">
+        <div className="mx-auto max-w-[1180px] px-6 py-6 sm:py-10 lg:px-10 lg:py-14">
           {/* Intro */}
-          <section className="max-w-2xl">
-            <p className="text-xs font-medium uppercase tracking-[0.15em] text-[#B66A45]">
-              Sourcing
-            </p>
+          <DashReveal>
+            <section className="max-w-2xl">
+              <p className="text-xs font-medium uppercase tracking-[0.15em] text-[#B66A45]">
+                Sourcing
+              </p>
 
-            <h1 className="mt-3 text-4xl font-semibold tracking-[-0.05em] sm:text-5xl">
-              Local Resources
-            </h1>
+              <h1 className="mt-3 text-2xl font-semibold tracking-[-0.04em] sm:text-5xl sm:tracking-[-0.05em]">
+                Local Resources
+              </h1>
 
-            <p className="mt-4 text-base leading-7 text-[#6D7069]">
-              Find materials and services relevant to your recommendations.
-            </p>
-          </section>
+              <p className="mt-3 text-sm leading-6 text-[#6D7069] sm:mt-4 sm:text-base sm:leading-7">
+                Find materials and services relevant to your recommendations.
+              </p>
+            </section>
+          </DashReveal>
 
           {/* Site context */}
           <section className="mt-10 flex flex-col gap-3 border-y border-[#D9D7CE] py-5 sm:flex-row sm:items-center sm:justify-between">
@@ -100,10 +111,12 @@ export default function ResourcesPage() {
               Recommended for your site
             </p>
 
-            <div className="mt-6 grid gap-5">
+            <StaggerList className="mt-6 grid gap-5">
               {resources.map((resource) => (
-                <article
+                <motion.article
                   key={resource.category}
+                  variants={staggerItem}
+                  whileHover={{ y: -3 }}
                   className="border border-[#D9D7CE] bg-[#FBFAF6]"
                 >
                   <div className="grid lg:grid-cols-[180px_1fr]">
@@ -118,7 +131,7 @@ export default function ResourcesPage() {
                     <div className="p-6 lg:p-7">
                       <div className="flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between">
                         <div className="max-w-2xl">
-                          <h2 className="text-xl font-medium tracking-[-0.025em]">
+                          <h2 className="text-lg font-medium tracking-[-0.02em] sm:text-xl sm:tracking-[-0.025em]">
                             {resource.title}
                           </h2>
 
@@ -156,9 +169,9 @@ export default function ResourcesPage() {
                       </div>
                     </div>
                   </div>
-                </article>
+                </motion.article>
               ))}
-            </div>
+            </StaggerList>
           </section>
 
           {/* Categories */}

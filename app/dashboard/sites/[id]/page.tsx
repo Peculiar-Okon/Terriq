@@ -6,6 +6,7 @@ import {
   ChevronRight,
   Location,
 } from "@/components/icons/terr-iq-icons";
+import { MobileSidebar } from "@/components/dashboard/mobile-nav";
 
 import {
   siteDetails,
@@ -55,9 +56,11 @@ export default async function SiteDetailPage({
     <div className="min-h-screen bg-[#F5F3ED] text-[#171A17]">
       <main className="min-h-screen">
         {/* Header */}
-        <header className="border-b border-[#D9D7CE]">
-          <div className="px-6 py-6 lg:px-10">
+        <header className="relative border-b border-[#D9D7CE]">
+          <div className="py-6 pl-16 pr-6 lg:px-10">
             <div className="mx-auto max-w-[1200px]">
+              <MobileSidebar />
+
               <Link
                 href="/dashboard/sites"
                 className="inline-flex items-center gap-2 text-sm text-[#6D7069] transition hover:text-[#23483A]"

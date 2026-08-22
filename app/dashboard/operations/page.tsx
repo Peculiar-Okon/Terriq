@@ -1,8 +1,15 @@
 "use client";
 
 import Link from "next/link";
+import { motion } from "framer-motion";
 
 import { ArrowRight } from "@/components/icons/terr-iq-icons";
+import { MobileSidebar } from "@/components/dashboard/mobile-nav";
+import {
+  DashReveal,
+  StaggerList,
+  staggerItem,
+} from "@/components/dashboard/dashboard-motion";
 import { operations } from "@/lib/data/operations";
 
 const statusStyles = {
@@ -15,19 +22,24 @@ export default function OperationsPage() {
   return (
     <div className="min-h-screen bg-[#F5F3ED] text-[#171A17]">
       <main className="min-h-screen">
-        <div className="mx-auto max-w-[1400px] px-6 py-10 lg:px-10 lg:py-14">
+        <header className="sticky top-0 z-30 flex h-[72px] items-center border-b border-[#D9D7CE] bg-[#F5F3ED]/95 pl-16 pr-6 backdrop-blur lg:hidden">
+          <MobileSidebar />
+        </header>
+
+        <div className="mx-auto max-w-[1400px] px-6 py-6 sm:py-10 lg:px-10 lg:py-14">
           {/* Header */}
+          <DashReveal>
           <section className="flex flex-col gap-6 border-b border-[#D9D7CE] pb-8 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <p className="text-xs font-medium uppercase tracking-[0.15em] text-[#B66A45]">
                 Operations
               </p>
 
-              <h1 className="mt-3 text-4xl font-semibold tracking-[-0.045em] sm:text-5xl">
+              <h1 className="mt-3 text-2xl font-semibold tracking-[-0.04em] sm:text-5xl sm:tracking-[-0.045em]">
                 Your operations
               </h1>
 
-              <p className="mt-3 max-w-xl text-base leading-7 text-[#6D7069]">
+              <p className="mt-2 max-w-xl text-sm leading-6 text-[#6D7069] sm:mt-3 sm:text-base sm:leading-7">
                 Monitor environmental exposure across your business
                 activities.
               </p>
@@ -40,21 +52,24 @@ export default function OperationsPage() {
               + Add operation
             </Link>
           </section>
+          </DashReveal>
 
           {/* Operations */}
-          <section className="mt-10">
-            <div className="space-y-4">
+          <section className="mt-8 sm:mt-10">
+            <StaggerList className="space-y-4">
               {operations.map((operation) => (
-                <article
+                <motion.article
                   key={operation.id}
+                  variants={staggerItem}
+                  whileHover={{ y: -3 }}
                   className="border border-[#D9D7CE] bg-[#FBFAF6] transition hover:border-[#B9B7AE] hover:bg-white"
                 >
-                  <div className="p-6 lg:p-8">
+                  <div className="p-5 sm:p-6 lg:p-8">
                     <div className="flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between">
                       {/* Main information */}
                       <div className="min-w-0 flex-1">
                         <div className="flex flex-wrap items-center gap-4">
-                          <h2 className="text-2xl font-medium tracking-[-0.03em]">
+                          <h2 className="text-xl font-medium tracking-[-0.03em] sm:text-2xl">
                             {operation.name}
                           </h2>
 
@@ -132,9 +147,9 @@ export default function OperationsPage() {
                       </div>
                     </div>
                   </div>
-                </article>
+                </motion.article>
               ))}
-            </div>
+            </StaggerList>
           </section>
 
           {/* Add operation */}

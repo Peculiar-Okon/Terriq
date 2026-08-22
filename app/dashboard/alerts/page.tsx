@@ -1,11 +1,14 @@
 "use client";
 
 import Link from "next/link";
+import { motion } from "framer-motion";
 
 import {
   ArrowRight,
   ChevronRight,
 } from "@/components/icons/terr-iq-icons";
+import { MobileSidebar } from "@/components/dashboard/mobile-nav";
+import { DashReveal } from "@/components/dashboard/dashboard-motion";
 
 type AlertPriority = "High" | "Medium" | "Low";
 
@@ -81,7 +84,9 @@ export default function AlertsPage() {
     <div className="min-h-screen bg-[#F5F3ED] text-[#171A17]">
       <main className="min-h-screen">
         {/* Header */}
-        <header className="sticky top-0 z-30 flex h-[72px] items-center justify-between border-b border-[#D9D7CE] bg-[#F5F3ED]/95 px-6 backdrop-blur lg:px-10">
+        <header className="sticky top-0 z-30 flex h-[72px] items-center justify-between border-b border-[#D9D7CE] bg-[#F5F3ED]/95 pl-16 pr-6 backdrop-blur lg:px-10">
+          <MobileSidebar />
+
           <span className="text-sm font-medium">Alerts</span>
 
           <button
@@ -92,22 +97,24 @@ export default function AlertsPage() {
           </button>
         </header>
 
-        <div className="mx-auto max-w-[1180px] px-6 py-10 lg:px-10 lg:py-14">
+        <div className="mx-auto max-w-[1180px] px-6 py-6 sm:py-10 lg:px-10 lg:py-14">
           {/* Intro */}
-          <section className="max-w-2xl">
-            <p className="text-xs font-medium uppercase tracking-[0.15em] text-[#B66A45]">
-              Environmental alerts
-            </p>
+          <DashReveal>
+            <section className="max-w-2xl">
+              <p className="text-xs font-medium uppercase tracking-[0.15em] text-[#B66A45]">
+                Environmental alerts
+              </p>
 
-            <h1 className="mt-3 text-4xl font-semibold tracking-[-0.05em] sm:text-5xl">
-              Alerts
-            </h1>
+              <h1 className="mt-3 text-2xl font-semibold tracking-[-0.04em] sm:text-5xl sm:tracking-[-0.05em]">
+                Alerts
+              </h1>
 
-            <p className="mt-4 text-base leading-7 text-[#6D7069]">
-              Changes that may require a decision or action across your
-              monitored sites and operations.
-            </p>
-          </section>
+              <p className="mt-3 text-sm leading-6 text-[#6D7069] sm:mt-4 sm:text-base sm:leading-7">
+                Changes that may require a decision or action across your
+                monitored sites and operations.
+              </p>
+            </section>
+          </DashReveal>
 
           {/* Requires attention */}
           <section className="mt-12">
@@ -123,8 +130,13 @@ export default function AlertsPage() {
 
             <div className="mt-5 space-y-4">
               {alerts.map((alert) => (
-                <article
+                <motion.article
                   key={alert.id}
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  whileHover={{ y: -3 }}
+                  transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
                   className="border border-[#B66A45]/40 bg-[#FBFAF6]"
                 >
                   <div className="border-b border-[#D9D7CE] px-6 py-4 lg:px-8">
@@ -191,7 +203,7 @@ export default function AlertsPage() {
                       </Link>
                     </div>
                   </div>
-                </article>
+                </motion.article>
               ))}
             </div>
           </section>

@@ -4,6 +4,7 @@ import { FormEvent, useState } from "react";
 import Link from "next/link";
 import { TerrIQLogo } from "@/components/brands/terriq-logo";
 import { createClient } from "@/lib/supabase/client";
+import { AuthReveal } from "@/components/auth/auth-reveal";
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState("");
@@ -33,23 +34,26 @@ export default function ForgotPasswordPage() {
   return (
     <main className="flex min-h-screen items-center justify-center bg-[#F5F3ED] px-6 py-12">
       <div className="w-full max-w-md">
-        <TerrIQLogo />
+        <AuthReveal>
+          <TerrIQLogo />
+        </AuthReveal>
 
-        <div className="mt-10">
+        <AuthReveal index={1} className="mt-10">
           <p className="text-sm uppercase tracking-[0.15em] text-[#6B746E]">
             Account recovery
           </p>
 
-          <h1 className="mt-3 text-4xl font-medium tracking-[-0.04em] text-[#1D2822]">
+          <h1 className="mt-3 text-2xl font-medium tracking-[-0.03em] text-[#1D2822] sm:text-4xl sm:tracking-[-0.04em]">
             Reset your password.
           </h1>
 
-          <p className="mt-3 text-sm leading-6 text-[#6B746E]">
+          <p className="mt-2 text-sm leading-6 text-[#6B746E] sm:mt-3">
             Enter your email and we'll send you a verification code to
             continue.
           </p>
-        </div>
+        </AuthReveal>
 
+        <AuthReveal index={2}>
         {sent ? (
           <div className="mt-8">
             <div className="rounded-xl border border-[#D7D8D1] bg-white p-5">
@@ -85,7 +89,7 @@ export default function ForgotPasswordPage() {
 
               <Link
                 href={`/reset-password?email=${encodeURIComponent(email)}`}
-                className="mt-5 block h-12 rounded-xl bg-[#23483A] px-5 py-3.5 text-center text-sm font-medium text-white transition hover:bg-[#1B392E]"
+                className="mt-5 block h-11 rounded-xl bg-[#23483A] px-5 py-3 text-center text-sm font-medium text-white transition hover:bg-[#1B392E] sm:h-12 sm:py-3.5"
               >
                 Enter verification code
               </Link>
@@ -121,7 +125,7 @@ export default function ForgotPasswordPage() {
                 placeholder="you@example.com"
                 autoComplete="email"
                 required
-                className="h-12 w-full rounded-xl border border-[#D7D8D1] bg-white px-4 text-sm text-[#1D2822] outline-none transition placeholder:text-[#9CA39D] focus:border-[#23483A] focus:ring-2 focus:ring-[#23483A]/10"
+                className="h-11 w-full rounded-xl border border-[#D7D8D1] bg-white px-4 text-sm text-[#1D2822] outline-none transition placeholder:text-[#9CA39D] focus:border-[#23483A] focus:ring-2 focus:ring-[#23483A]/10 sm:h-12"
               />
             </div>
 
@@ -134,19 +138,23 @@ export default function ForgotPasswordPage() {
             <button
               type="submit"
               disabled={loading}
-              className="mt-5 h-12 w-full rounded-xl bg-[#23483A] text-sm font-medium text-white transition hover:bg-[#1B392E] disabled:cursor-not-allowed disabled:opacity-60"
+              className="mt-4 h-11 w-full rounded-xl bg-[#23483A] text-sm font-medium text-white transition hover:bg-[#1B392E] disabled:cursor-not-allowed disabled:opacity-60 sm:mt-5 sm:h-12"
             >
               {loading ? "Sending code..." : "Send verification code"}
             </button>
           </form>
         )}
 
-        <Link
-          href="/login"
-          className="mt-6 block text-center text-sm text-[#6B746E] transition hover:text-[#23483A]"
-        >
-          ← Back to sign in
-        </Link>
+        </AuthReveal>
+
+        <AuthReveal index={3}>
+          <Link
+            href="/login"
+            className="mt-6 block text-center text-sm text-[#6B746E] transition hover:text-[#23483A]"
+          >
+            ← Back to sign in
+          </Link>
+        </AuthReveal>
       </div>
     </main>
   );

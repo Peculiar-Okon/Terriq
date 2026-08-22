@@ -2,8 +2,13 @@
 
 import { FormEvent, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { motion } from "framer-motion";
 import { createClient } from "@/lib/supabase/client";
 import { TerrIQLogo } from "@/components/brands/terriq-logo";
+import {
+  StepReveal,
+  OptionCard,
+} from "@/components/onboarding/onboarding-motion";
 
 type Profile = {
   primary_use_case: "site" | "operation" | "both" | null;
@@ -174,11 +179,16 @@ export default function PlacePage() {
 
   if (loadingProfile) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-[#F5F3ED]">
-        <p className="text-sm text-[#6D7069]">
+      <div className="flex min-h-screen items-center justify-center">
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: [0.4, 1, 0.4] }}
+          transition={{ duration: 1.6, repeat: Infinity }}
+          className="text-sm text-[#6D7069]"
+        >
           Preparing your place...
-        </p>
-      </main>
+        </motion.p>
+      </div>
     );
   }
 
@@ -283,170 +293,164 @@ export default function PlacePage() {
   }
 
   return (
-    <main className="min-h-screen bg-[#F5F3ED]">
-      <div className="mx-auto flex min-h-screen max-w-3xl flex-col px-6 py-8">
-        <TerrIQLogo />
+    <div className="mx-auto flex min-h-screen max-w-3xl flex-col px-6 py-8">
+      <TerrIQLogo />
 
-        <div className="mt-16 flex-1 pb-10">
-          <div className="mb-10">
-            <p className="text-sm font-medium uppercase tracking-[0.15em] text-[#B66A45]">
-              02 / 03 · Place
-            </p>
+      <div className="mt-10 flex-1 pb-10 sm:mt-16">
+        <StepReveal className="mb-8 sm:mb-10">
+          <p className="text-xs font-medium uppercase tracking-[0.15em] text-[#B66A45] sm:text-sm">
+            02 / 03 · Place
+          </p>
 
-            <h1 className="mt-4 text-4xl font-medium tracking-[-0.04em] text-[#171A17] sm:text-5xl">
-              Where should TerrIQ start?
-            </h1>
+          <h1 className="mt-3 text-2xl font-medium tracking-[-0.03em] text-[#171A17] sm:mt-4 sm:text-5xl sm:tracking-[-0.04em]">
+            Where should TerrIQ start?
+          </h1>
 
-            <p className="mt-4 max-w-xl text-base leading-7 text-[#6D7069]">
-              Add the first place you want TerrIQ to understand.
-            </p>
+          <p className="mt-3 max-w-xl text-sm leading-6 text-[#6D7069] sm:mt-4 sm:text-base sm:leading-7">
+            Add the first place you want TerrIQ to understand.
+          </p>
+        </StepReveal>
+
+        <StepReveal index={1}>
+        <form onSubmit={handleSubmit} className="space-y-6 sm:space-y-8">
+          <div>
+            <label
+              htmlFor="placeName"
+              className="mb-2 block text-sm font-medium text-[#26332B]"
+            >
+              Place name
+            </label>
+
+            <input
+              id="placeName"
+              value={placeName}
+              onChange={(e) => setPlaceName(e.target.value)}
+              placeholder="e.g. Lagos Warehouse"
+              className="h-12 w-full rounded-xl border border-[#D7D8D1] bg-white px-4 text-sm outline-none transition focus:border-[#23483A] focus:ring-2 focus:ring-[#23483A]/10"
+            />
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-8">
-            <div>
-              <label
-                htmlFor="placeName"
-                className="mb-2 block text-sm font-medium text-[#26332B]"
-              >
-                Place name
-              </label>
+          <div>
+            <label
+              htmlFor="location"
+              className="mb-2 block text-sm font-medium text-[#26332B]"
+            >
+              Location
+            </label>
 
+            <div className="relative">
               <input
-                id="placeName"
-                value={placeName}
-                onChange={(e) => setPlaceName(e.target.value)}
-                placeholder="e.g. Lagos Warehouse"
-                className="h-12 w-full rounded-xl border border-[#D7D8D1] bg-white px-4 text-sm outline-none transition focus:border-[#23483A] focus:ring-2 focus:ring-[#23483A]/10"
+                id="location"
+                value={location}
+                onChange={(e) => {
+                  setLocation(e.target.value);
+                  setLatitude(null);
+                  setLongitude(null);
+                }}
+                placeholder="Search for an address or area"
+                className="h-12 w-full rounded-xl border border-[#D7D8D1] bg-white px-4 pr-12 text-sm outline-none transition focus:border-[#23483A] focus:ring-2 focus:ring-[#23483A]/10"
               />
             </div>
 
-            <div>
-              <label
-                htmlFor="location"
-                className="mb-2 block text-sm font-medium text-[#26332B]"
-              >
-                Location
-              </label>
+            <button
+              type="button"
+              onClick={detectLocation}
+              disabled={detectingLocation}
+              className="mt-3 text-sm font-medium text-[#23483A] hover:text-[#1B392E] disabled:opacity-60"
+            >
+              {detectingLocation
+                ? "Finding your location..."
+                : "Use my current location"}
+            </button>
+          </div>
 
-              <div className="relative">
-                <input
-                  id="location"
-                  value={location}
-                  onChange={(e) => {
-                    setLocation(e.target.value);
-                    setLatitude(null);
-                    setLongitude(null);
-                  }}
-                  placeholder="Search for an address or area"
-                  className="h-12 w-full rounded-xl border border-[#D7D8D1] bg-white px-4 pr-12 text-sm outline-none transition focus:border-[#23483A] focus:ring-2 focus:ring-[#23483A]/10"
-                />
-              </div>
+          <div>
+            <p className="mb-3 text-sm font-medium text-[#26332B]">
+              What is this place?
+            </p>
 
-              <button
-                type="button"
-                onClick={detectLocation}
-                disabled={detectingLocation}
-                className="mt-3 text-sm font-medium text-[#23483A] hover:text-[#1B392E] disabled:opacity-60"
-              >
-                {detectingLocation
-                  ? "Finding your location..."
-                  : "Use my current location"}
-              </button>
-            </div>
-
-            <div>
-              <p className="mb-3 text-sm font-medium text-[#26332B]">
-                What is this place?
-              </p>
-
-              <div className="grid gap-3 sm:grid-cols-2">
-                {[
-                  ...(isSite ? sitePlaceTypes : []),
-                  ...(isOperation ? operationPlaceTypes : []),
-                ]
-                  .filter(
-                    (type, index, array) =>
-                      array.findIndex((t) => t.value === type.value) ===
-                      index
-                  )
-                  .map((type) => {
-                    const selected = placeType === type.value;
-
-                    return (
-                      <button
-                        key={type.label}
-                        type="button"
-                        onClick={() => setPlaceType(type.value)}
-                        className={`rounded-xl border px-4 py-4 text-left text-sm transition ${
-                          selected
-                            ? "border-[#23483A] bg-[#EAF0EB] text-[#23483A]"
-                            : "border-[#D7D8D1] bg-white text-[#26332B] hover:border-[#AEB3AC]"
-                        }`}
-                      >
-                        <span className="flex items-center justify-between">
-                          {type.label}
-                          {selected && (
-                            <span className="text-[#23483A]">✓</span>
-                          )}
-                        </span>
-                      </button>
-                    );
-                  })}
-              </div>
-            </div>
-
-            <div>
-              <p className="mb-1 text-sm font-medium text-[#26332B]">
-                What matters most here?
-              </p>
-
-              <p className="mb-3 text-sm text-[#6D7069]">
-                Choose the things you want TerrIQ to pay attention to.
-              </p>
-
-              <div className="grid gap-3 sm:grid-cols-2">
-                {priorities.map((priority) => {
-                  const selected = selectedPriorities.includes(priority);
+            <div className="grid gap-3 sm:grid-cols-2">
+              {[
+                ...(isSite ? sitePlaceTypes : []),
+                ...(isOperation ? operationPlaceTypes : []),
+              ]
+                .filter(
+                  (type, index, array) =>
+                    array.findIndex((t) => t.value === type.value) ===
+                    index
+                )
+                .map((type) => {
+                  const selected = placeType === type.value;
 
                   return (
-                    <button
-                      key={priority}
-                      type="button"
-                      onClick={() => togglePriority(priority)}
-                      className={`rounded-xl border px-4 py-4 text-left text-sm transition ${
-                        selected
-                          ? "border-[#23483A] bg-[#EAF0EB] text-[#23483A]"
-                          : "border-[#D7D8D1] bg-white text-[#26332B] hover:border-[#AEB3AC]"
-                      }`}
+                    <OptionCard
+                      key={type.label}
+                      selected={selected}
+                      onClick={() => setPlaceType(type.value)}
+                      className="rounded-xl px-4 py-4"
                     >
-                      <span className="flex items-center justify-between gap-3">
-                        {priority}
+                      <span className="flex items-center justify-between">
+                        {type.label}
                         {selected && (
                           <span className="text-[#23483A]">✓</span>
                         )}
                       </span>
-                    </button>
+                    </OptionCard>
                   );
                 })}
-              </div>
             </div>
+          </div>
 
-            {error && (
-              <div className="rounded-xl border border-[#E8B7B2] bg-[#FDF3F2] px-4 py-3">
-                <p className="text-sm text-[#A9443D]">{error}</p>
-              </div>
-            )}
+          <div>
+            <p className="mb-1 text-sm font-medium text-[#26332B]">
+              What matters most here?
+            </p>
 
-            <button
-              type="submit"
-              disabled={loading}
-              className="h-12 w-full rounded-xl bg-[#23483A] text-sm font-medium text-white transition hover:bg-[#1B392E] disabled:cursor-not-allowed disabled:opacity-60"
-            >
-              {loading ? "Saving your place..." : "Continue"}
-            </button>
-          </form>
-        </div>
+            <p className="mb-3 text-sm text-[#6D7069]">
+              Choose the things you want TerrIQ to pay attention to.
+            </p>
+
+            <div className="grid gap-3 sm:grid-cols-2">
+              {priorities.map((priority) => {
+                const selected = selectedPriorities.includes(priority);
+
+                return (
+                  <OptionCard
+                    key={priority}
+                    selected={selected}
+                    onClick={() => togglePriority(priority)}
+                    className="rounded-xl px-4 py-4"
+                  >
+                    <span className="flex items-center justify-between gap-3">
+                      {priority}
+                      {selected && (
+                        <span className="text-[#23483A]">✓</span>
+                      )}
+                    </span>
+                  </OptionCard>
+                );
+              })}
+            </div>
+          </div>
+
+          {error && (
+            <div className="rounded-xl border border-[#E8B7B2] bg-[#FDF3F2] px-4 py-3">
+              <p className="text-sm text-[#A9443D]">{error}</p>
+            </div>
+          )}
+
+          <motion.button
+            type="submit"
+            disabled={loading}
+            whileHover={{ y: -1 }}
+            whileTap={{ scale: 0.99 }}
+            className="h-12 w-full rounded-xl bg-[#23483A] text-sm font-medium text-white transition hover:bg-[#1B392E] disabled:cursor-not-allowed disabled:opacity-60"
+          >
+            {loading ? "Saving your place..." : "Continue"}
+          </motion.button>
+        </form>
+        </StepReveal>
       </div>
-    </main>
+    </div>
   );
 }

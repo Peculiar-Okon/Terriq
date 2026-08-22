@@ -6,6 +6,8 @@ import {
   ArrowRight,
   Search,
 } from "@/components/icons/terr-iq-icons";
+import { MobileSidebar } from "@/components/dashboard/mobile-nav";
+import { DashReveal } from "@/components/dashboard/dashboard-motion";
 
 const helpSections = [
   {
@@ -60,24 +62,27 @@ export default function HelpPage() {
     <div className="min-h-screen bg-[#F5F3ED] text-[#171A17]">
       <main className="min-h-screen">
         {/* Header */}
-        <header className="sticky top-0 z-30 flex h-[72px] items-center justify-between border-b border-[#D9D7CE] bg-[#F5F3ED]/95 px-6 backdrop-blur lg:px-10">
+        <header className="sticky top-0 z-30 flex h-[72px] items-center justify-between border-b border-[#D9D7CE] bg-[#F5F3ED]/95 pl-16 pr-6 backdrop-blur lg:px-10">
+          <MobileSidebar />
+
           <span className="text-sm font-medium">Help</span>
         </header>
 
-        <div className="w-full px-6 py-10 lg:px-10 lg:py-14">
+        <div className="w-full px-6 py-6 sm:py-10 lg:px-10 lg:py-14">
           {/* Hero */}
-          <section className="max-w-3xl">
-            <p className="text-xs font-medium uppercase tracking-[0.15em] text-[#B66A45]">
-              TerrIQ Help
-            </p>
+          <DashReveal>
+            <section className="max-w-3xl">
+              <p className="text-xs font-medium uppercase tracking-[0.15em] text-[#B66A45]">
+                TerrIQ Help
+              </p>
 
-            <h1 className="mt-3 text-4xl font-semibold tracking-[-0.045em] sm:text-5xl">
-              How can we help?
-            </h1>
+              <h1 className="mt-3 text-2xl font-semibold tracking-[-0.04em] sm:text-5xl sm:tracking-[-0.045em]">
+                How can we help?
+              </h1>
 
-            <p className="mt-3 text-base leading-7 text-[#6D7069]">
-              Learn how TerrIQ assessments, monitoring, alerts, and plans work.
-            </p>
+              <p className="mt-2 text-sm leading-6 text-[#6D7069] sm:mt-3 sm:text-base sm:leading-7">
+                Learn how TerrIQ assessments, monitoring, alerts, and plans work.
+              </p>
 
             {/* Search */}
             <div className="relative mt-8 max-w-2xl">
@@ -91,10 +96,11 @@ export default function HelpPage() {
                 value={search}
                 onChange={(event) => setSearch(event.target.value)}
                 placeholder="Search TerrIQ"
-                className="h-14 w-full border border-[#D9D7CE] bg-[#FBFAF6] pl-12 pr-4 text-sm outline-none transition placeholder:text-[#92958D] focus:border-[#23483A]"
+                className="h-12 w-full border border-[#D9D7CE] bg-[#FBFAF6] pl-12 pr-4 text-sm outline-none transition placeholder:text-[#92958D] focus:border-[#23483A] sm:h-14"
               />
             </div>
-          </section>
+            </section>
+          </DashReveal>
 
           {/* Help articles */}
           <section className="mt-14 max-w-5xl">

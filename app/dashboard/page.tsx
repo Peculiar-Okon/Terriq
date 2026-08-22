@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { motion } from "framer-motion";
 
 import {
   ArrowRight,
@@ -12,6 +13,12 @@ import {
 } from "@/components/icons/terr-iq-icons";
 
 import { SiteSwitcher } from "@/components/dashboard/site-switcher";
+import { MobileSidebar } from "@/components/dashboard/mobile-nav";
+import {
+  DashReveal,
+  StaggerList,
+  staggerItem,
+} from "@/components/dashboard/dashboard-motion";
 
 import {
   overviewData,
@@ -43,7 +50,9 @@ export default function DashboardPage() {
     <div className="min-h-screen bg-[#F5F3ED] text-[#171A17]">
       <main className="min-h-screen">
         {/* Top bar */}
-        <header className="sticky top-0 z-30 flex h-[72px] items-center justify-between border-b border-[#D9D7CE] bg-[#F5F3ED]/95 px-6 backdrop-blur lg:px-10">
+        <header className="sticky top-0 z-30 flex h-[72px] items-center justify-between border-b border-[#D9D7CE] bg-[#F5F3ED]/95 pl-16 pr-6 backdrop-blur lg:px-10">
+          <MobileSidebar />
+
           <div>
             <span className="text-sm font-medium text-[#171A17]">
               Overview
@@ -74,31 +83,34 @@ export default function DashboardPage() {
           </div>
         </header>
 
-        <div className="w-full px-6 py-10 lg:px-10 lg:py-14">
+        <div className="w-full px-6 py-6 sm:py-10 lg:px-10 lg:py-14">
           {/* ========================================================= */}
           {/* INTRO */}
           {/* ========================================================= */}
 
-          <section>
-            <p className="text-sm font-medium uppercase tracking-[0.14em] text-[#B66A45]">
-              Operational intelligence
-            </p>
+          <DashReveal>
+            <section>
+              <p className="text-xs font-medium uppercase tracking-[0.14em] text-[#B66A45] sm:text-sm">
+                Operational intelligence
+              </p>
 
-            <h1 className="mt-3 text-4xl font-semibold tracking-[-0.045em] sm:text-5xl">
-              Good morning, Pearl
-            </h1>
+              <h1 className="mt-2 text-2xl font-semibold tracking-[-0.04em] sm:mt-3 sm:text-5xl sm:tracking-[-0.045em]">
+                Good morning, Pearl
+              </h1>
 
-            <p className="mt-3 max-w-2xl text-base leading-7 text-[#6D7069]">
-              Environmental conditions translated into what they could
-              mean for your sites, operations, and decisions.
-            </p>
-          </section>
+              <p className="mt-2 max-w-2xl text-sm leading-6 text-[#6D7069] sm:mt-3 sm:text-base sm:leading-7">
+                Environmental conditions translated into what they could
+                mean for your sites, operations, and decisions.
+              </p>
+            </section>
+          </DashReveal>
 
           {/* ========================================================= */}
           {/* CURRENT ENVIRONMENTAL PICTURE */}
           {/* ========================================================= */}
 
-          <section className="mt-10 border border-[#D9D7CE] bg-[#FBFAF6]">
+          <DashReveal index={1}>
+          <section className="mt-8 border border-[#D9D7CE] bg-[#FBFAF6] sm:mt-10">
             <div className="border-b border-[#D9D7CE] px-6 py-4">
               <p className="text-xs font-medium uppercase tracking-[0.15em] text-[#92958D]">
                 Current environmental picture
@@ -114,7 +126,7 @@ export default function DashboardPage() {
                       Monitoring
                     </p>
 
-                    <h2 className="mt-4 text-2xl font-medium tracking-[-0.03em]">
+                    <h2 className="mt-4 text-xl font-medium tracking-[-0.03em] sm:text-2xl">
                       {site.name}
                     </h2>
 
@@ -146,7 +158,7 @@ export default function DashboardPage() {
                       Exposure
                     </p>
 
-                    <p className="mt-3 text-3xl font-medium tracking-[-0.04em]">
+                    <p className="mt-3 text-2xl font-medium tracking-[-0.04em] sm:text-3xl">
                       {site.exposure}
                     </p>
                   </div>
@@ -173,6 +185,7 @@ export default function DashboardPage() {
               </div>
             </div>
           </section>
+          </DashReveal>
 
           {/* ========================================================= */}
           {/* ATTENTION */}
@@ -205,11 +218,13 @@ export default function DashboardPage() {
               </Link>
             </div>
 
-            <div className="mt-6 grid gap-px overflow-hidden border border-[#D9D7CE] bg-[#D9D7CE] md:grid-cols-3">
+            <StaggerList className="mt-6 grid gap-px overflow-hidden border border-[#D9D7CE] bg-[#D9D7CE] md:grid-cols-3">
               {data.concerns.map((concern) => (
-                <article
+                <motion.article
                   key={concern.number}
-                  className="group bg-[#FBFAF6] p-6 transition hover:bg-white lg:p-7"
+                  variants={staggerItem}
+                  whileHover={{ y: -3 }}
+                  className="group cursor-default bg-[#FBFAF6] p-5 transition hover:bg-white sm:p-6 lg:p-7"
                 >
                   <div className="flex items-center justify-between">
                     <span className="text-xs text-[#B66A45]">
@@ -225,7 +240,7 @@ export default function DashboardPage() {
                     </span>
                   </div>
 
-                  <h3 className="mt-10 text-xl font-medium tracking-[-0.025em]">
+                  <h3 className="mt-8 text-lg font-medium tracking-[-0.025em] sm:mt-10 sm:text-xl">
                     {concern.title}
                   </h3>
 
@@ -253,9 +268,9 @@ export default function DashboardPage() {
                       className="transition-transform group-hover:translate-x-1"
                     />
                   </Link>
-                </article>
+                </motion.article>
               ))}
-            </div>
+            </StaggerList>
           </section>
 
           {/* ========================================================= */}

@@ -1,5 +1,4 @@
 import { DashboardSidebar } from "@/components/dashboard/dashboard-sidebar";
-import { MobileNav } from "@/components/dashboard/mobile-nav";
 
 export default function DashboardLayout({
   children,
@@ -12,11 +11,7 @@ export default function DashboardLayout({
         <DashboardSidebar />
 
         <div className="min-w-0 flex-1">
-          <MobileNav />
-
-          <main className="min-h-[calc(100vh-4rem)] lg:min-h-screen">
-            {children}
-          </main>
+          <main className="min-h-screen">{children}</main>
         </div>
       </div>
     </div>

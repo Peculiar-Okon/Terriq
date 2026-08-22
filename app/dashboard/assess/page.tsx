@@ -8,6 +8,7 @@ import {
   ChevronDown,
   Location,
 } from "@/components/icons/terr-iq-icons";
+import { MobileSidebar } from "@/components/dashboard/mobile-nav";
 
 import {
   contextualQuestions,
@@ -76,6 +77,10 @@ export default function AssessPage() {
 
   return (
     <main className="min-h-screen bg-[#F5F3ED] text-[#171A17]">
+      <header className="sticky top-0 z-30 flex h-[72px] items-center border-b border-[#D9D7CE] bg-[#F5F3ED]/95 pl-16 pr-6 backdrop-blur lg:hidden">
+        <MobileSidebar />
+      </header>
+
       <div className="mx-auto max-w-[1100px] px-6 py-10 lg:px-12 lg:py-16">
 
         {/* Header */}

@@ -2,11 +2,18 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { motion } from "framer-motion";
 
 import {
   ArrowRight,
   Location,
 } from "@/components/icons/terr-iq-icons";
+import { MobileSidebar } from "@/components/dashboard/mobile-nav";
+import {
+  DashReveal,
+  StaggerList,
+  staggerItem,
+} from "@/components/dashboard/dashboard-motion";
 
 import { siteRecords } from "@/lib/data/site";
 
@@ -25,8 +32,9 @@ export default function SitesPage() {
     <div className="min-h-screen bg-[#F5F3ED] text-[#171A17]">
       <main className="min-h-screen">
         {/* Header */}
-        <header className="border-b border-[#D9D7CE]">
-          <div className="flex min-h-[72px] items-center justify-between px-6 lg:px-10">
+        <header className="relative border-b border-[#D9D7CE]">
+          <div className="flex min-h-[72px] items-center justify-between pl-16 pr-6 lg:px-10">
+            <MobileSidebar />
             <h1 className="text-sm font-medium">Sites</h1>
 
             <Link
@@ -39,23 +47,25 @@ export default function SitesPage() {
           </div>
         </header>
 
-        <div className="w-full px-6 py-10 lg:px-10 lg:py-14">
+        <div className="w-full px-6 py-6 sm:py-10 lg:px-10 lg:py-14">
           <div className="mx-auto max-w-[1200px]">
             {/* Intro */}
-            <section>
-              <p className="text-xs font-medium uppercase tracking-[0.15em] text-[#B66A45]">
-                Your places
-              </p>
+            <DashReveal>
+              <section>
+                <p className="text-xs font-medium uppercase tracking-[0.15em] text-[#B66A45]">
+                  Your places
+                </p>
 
-              <h2 className="mt-3 text-4xl font-semibold tracking-[-0.045em] sm:text-5xl">
-                Sites
-              </h2>
+                <h2 className="mt-3 text-2xl font-semibold tracking-[-0.04em] sm:text-5xl sm:tracking-[-0.045em]">
+                  Sites
+                </h2>
 
-              <p className="mt-4 max-w-xl text-base leading-7 text-[#6D7069]">
-                Monitor environmental conditions and exposure across the
-                locations your business depends on.
-              </p>
-            </section>
+                <p className="mt-3 max-w-xl text-sm leading-6 text-[#6D7069] sm:mt-4 sm:text-base sm:leading-7">
+                  Monitor environmental conditions and exposure across the
+                  locations your business depends on.
+                </p>
+              </section>
+            </DashReveal>
 
             {/* Filters */}
             <div className="mt-10 flex gap-6 border-b border-[#D9D7CE]">
@@ -82,13 +92,15 @@ export default function SitesPage() {
             </div>
 
             {/* Site list */}
-            <section className="mt-8 space-y-4">
+            <StaggerList className="mt-8 space-y-4">
               {filteredSites.map((site) => (
-                <article
+                <motion.article
                   key={site.id}
+                  variants={staggerItem}
+                  whileHover={{ y: -3 }}
                   className="group border border-[#D9D7CE] bg-[#FBFAF6] transition hover:border-[#B9B7AE]"
                 >
-                  <div className="p-6 sm:p-8">
+                  <div className="p-5 sm:p-8">
                     <div className="flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between">
                       {/* Site identity */}
                       <div>
@@ -98,7 +110,7 @@ export default function SitesPage() {
                             : "Assessment"}
                         </p>
 
-                        <h3 className="mt-4 text-2xl font-medium tracking-[-0.03em]">
+                        <h3 className="mt-4 text-xl font-medium tracking-[-0.03em] sm:text-2xl">
                           {site.name}
                         </h3>
 
@@ -121,7 +133,7 @@ export default function SitesPage() {
                         <div className="mt-3 flex items-center gap-2 lg:justify-end">
                           <span className="h-2 w-2 rounded-full bg-[#B66A45]" />
 
-                          <span className="text-lg font-medium">
+                          <span className="text-base font-medium sm:text-lg">
                             {site.exposure}
                           </span>
                         </div>
@@ -178,9 +190,9 @@ export default function SitesPage() {
                       </Link>
                     </div>
                   </div>
-                </article>
+                </motion.article>
               ))}
-            </section>
+            </StaggerList>
 
             {/* Empty state */}
             {filteredSites.length === 0 && (

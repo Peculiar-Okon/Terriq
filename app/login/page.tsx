@@ -157,6 +157,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { TerrIQLogo } from "@/components/brands/terriq-logo";
 import { createClient } from "@/lib/supabase/client";
+import { AuthReveal } from "@/components/auth/auth-reveal";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -207,9 +208,11 @@ export default function LoginPage() {
     <main className="flex min-h-screen bg-[#F5F3ED]">
       {/* Left panel */}
       <div className="hidden w-1/2 bg-[#23483A] p-10 lg:flex lg:flex-col lg:justify-between">
-        <TerrIQLogo dark />
+        <AuthReveal>
+          <TerrIQLogo dark />
+        </AuthReveal>
 
-        <div className="max-w-md">
+        <AuthReveal index={1} className="max-w-md">
           <p className="text-sm uppercase tracking-[0.15em] text-[#A9B9AF]">
             Welcome back
           </p>
@@ -222,36 +225,39 @@ export default function LoginPage() {
               Check environmental conditions, understand what they could affect, and
               make better decisions before risk reaches your site or operations.
             </p>
-            </div>
+        </AuthReveal>
 
-            <p className="text-xs text-[#A9B9AF]">
-              Environmental conditions. Better decisions.
-            </p>
+        <AuthReveal index={2}>
+          <p className="text-xs text-[#A9B9AF]">
+            Environmental conditions. Better decisions.
+          </p>
+        </AuthReveal>
       </div>
 
       {/* Right panel */}
       <div className="flex w-full items-center justify-center px-6 py-12 lg:w-1/2">
         <div className="w-full max-w-md">
           {/* Mobile logo */}
-          <div className="mb-10 lg:hidden">
+          <AuthReveal className="mb-10 lg:hidden">
             <TerrIQLogo />
-          </div>
+          </AuthReveal>
 
-          <div>
+          <AuthReveal index={1}>
             <p className="text-sm uppercase tracking-[0.15em] text-[#6B746E]">
               Welcome back
             </p>
 
-              <h2 className="mt-3 text-4xl font-medium tracking-[-0.04em] text-[#1D2822]">
+              <h2 className="mt-3 text-2xl font-medium tracking-[-0.03em] text-[#1D2822] sm:text-4xl sm:tracking-[-0.04em]">
                 Welcome back to TerrIQ.
               </h2>
 
-              <p className="mt-3 text-sm leading-6 text-[#6B746E]">
+              <p className="mt-2 text-sm leading-6 text-[#6B746E] sm:mt-3">
                 See what has changed around your sites and operations.
               </p>
-          </div>
+          </AuthReveal>
 
-          <form onSubmit={handleLogin} className="mt-8 space-y-5">
+          <AuthReveal index={2}>
+          <form onSubmit={handleLogin} className="mt-6 space-y-4 sm:mt-8 sm:space-y-5">
             {/* Email */}
             <div>
               <label
@@ -270,7 +276,7 @@ export default function LoginPage() {
                 placeholder="you@example.com"
                 autoComplete="email"
                 required
-                className="h-12 w-full rounded-xl border border-[#D7D8D1] bg-white px-4 text-sm text-[#1D2822] outline-none transition placeholder:text-[#9CA39D] focus:border-[#23483A] focus:ring-2 focus:ring-[#23483A]/10"
+                className="h-11 w-full rounded-xl border border-[#D7D8D1] bg-white px-4 text-sm text-[#1D2822] outline-none transition placeholder:text-[#9CA39D] focus:border-[#23483A] focus:ring-2 focus:ring-[#23483A]/10 sm:h-12"
               />
             </div>
 
@@ -302,7 +308,7 @@ export default function LoginPage() {
                   placeholder="Enter your password"
                   autoComplete="current-password"
                   required
-                  className="h-12 w-full rounded-xl border border-[#D7D8D1] bg-white px-4 pr-12 text-sm text-[#1D2822] outline-none transition placeholder:text-[#9CA39D] focus:border-[#23483A] focus:ring-2 focus:ring-[#23483A]/10"
+                  className="h-11 w-full rounded-xl border border-[#D7D8D1] bg-white px-4 pr-12 text-sm text-[#1D2822] outline-none transition placeholder:text-[#9CA39D] focus:border-[#23483A] focus:ring-2 focus:ring-[#23483A]/10 sm:h-12"
                 />
 
                 <button
@@ -356,21 +362,24 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="h-12 w-full rounded-xl bg-[#23483A] text-sm font-medium text-white transition hover:bg-[#1B392E] disabled:cursor-not-allowed disabled:opacity-60"
+              className="h-11 w-full rounded-xl bg-[#23483A] text-sm font-medium text-white transition hover:bg-[#1B392E] disabled:cursor-not-allowed disabled:opacity-60 sm:h-12"
             >
               {loading ? "Signing in..." : "Sign in"}
             </button>
           </form>
+          </AuthReveal>
 
-          <p className="mt-6 text-center text-sm text-[#6B746E]">
-            Don&apos;t have an account?{" "}
-            <Link
-              href="/signup"
-              className="font-medium text-[#23483A] transition hover:underline"
-            >
-              Create one
-            </Link>
-          </p>
+          <AuthReveal index={3}>
+            <p className="mt-6 text-center text-sm text-[#6B746E]">
+              Don't have an account?{" "}
+              <Link
+                href="/signup"
+                className="font-medium text-[#23483A] transition hover:underline"
+              >
+                Create one
+              </Link>
+            </p>
+          </AuthReveal>
         </div>
       </div>
     </main>

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { ArrowRight } from "@/components/icons/terr-iq-icons";
+import { MobileSidebar } from "@/components/dashboard/mobile-nav";
 import { getOperation } from "@/lib/data/operations";
 
 type PageProps = {
@@ -39,6 +40,10 @@ export default async function OperationDetailPage({
   return (
     <div className="min-h-screen bg-[#F5F3ED] text-[#171A17]">
       <main className="min-h-screen">
+        <header className="sticky top-0 z-30 flex h-[72px] items-center border-b border-[#D9D7CE] bg-[#F5F3ED]/95 pl-16 pr-6 backdrop-blur lg:hidden">
+          <MobileSidebar />
+        </header>
+
         <div className="mx-auto max-w-[1400px] px-6 py-10 lg:px-10 lg:py-14">
           {/* Back */}
           <Link

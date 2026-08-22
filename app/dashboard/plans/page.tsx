@@ -1,11 +1,18 @@
 "use client";
 
 import Link from "next/link";
+import { motion } from "framer-motion";
 
 import {
   ArrowRight,
   ChevronRight,
 } from "@/components/icons/terr-iq-icons";
+import { MobileSidebar } from "@/components/dashboard/mobile-nav";
+import {
+  DashReveal,
+  StaggerList,
+  staggerItem,
+} from "@/components/dashboard/dashboard-motion";
 
 type PlanStatus = "Complete" | "In progress" | "Pending";
 
@@ -61,7 +68,9 @@ export default function PlansPage() {
     <div className="min-h-screen bg-[#F5F3ED] text-[#171A17]">
       <main className="min-h-screen">
         {/* Header */}
-        <header className="sticky top-0 z-30 flex h-[72px] items-center justify-between border-b border-[#D9D7CE] bg-[#F5F3ED]/95 px-6 backdrop-blur lg:px-10">
+        <header className="sticky top-0 z-30 flex h-[72px] items-center justify-between border-b border-[#D9D7CE] bg-[#F5F3ED]/95 pl-16 pr-6 backdrop-blur lg:px-10">
+          <MobileSidebar />
+
           <span className="text-sm font-medium">Plans</span>
 
           <Link
@@ -73,31 +82,35 @@ export default function PlansPage() {
           </Link>
         </header>
 
-        <div className="mx-auto max-w-[1180px] px-6 py-10 lg:px-10 lg:py-14">
+        <div className="mx-auto max-w-[1180px] px-6 py-6 sm:py-10 lg:px-10 lg:py-14">
           {/* Intro */}
-          <section className="max-w-2xl">
-            <p className="text-xs font-medium uppercase tracking-[0.15em] text-[#B66A45]">
-              Decision support
-            </p>
+          <DashReveal>
+            <section className="max-w-2xl">
+              <p className="text-xs font-medium uppercase tracking-[0.15em] text-[#B66A45]">
+                Decision support
+              </p>
 
-            <h1 className="mt-3 text-4xl font-semibold tracking-[-0.05em] sm:text-5xl">
-              Plans
-            </h1>
+              <h1 className="mt-3 text-2xl font-semibold tracking-[-0.04em] sm:text-5xl sm:tracking-[-0.05em]">
+                Plans
+              </h1>
 
-            <p className="mt-4 text-base leading-7 text-[#6D7069]">
-              Turn recommendations into actions.
-            </p>
-          </section>
+              <p className="mt-3 text-sm leading-6 text-[#6D7069] sm:mt-4 sm:text-base sm:leading-7">
+                Turn recommendations into actions.
+              </p>
+            </section>
+          </DashReveal>
 
           {/* Plans */}
-          <section className="mt-12">
-            <div className="space-y-5">
+          <section className="mt-8 sm:mt-12">
+            <StaggerList className="space-y-5">
               {plans.map((plan) => {
                 const percentage = (plan.completed / plan.total) * 100;
 
                 return (
-                  <article
+                  <motion.article
                     key={plan.id}
+                    variants={staggerItem}
+                    whileHover={{ y: -3 }}
                     className="border border-[#D9D7CE] bg-[#FBFAF6]"
                   >
                     {/* Plan heading */}
@@ -108,7 +121,7 @@ export default function PlansPage() {
                             {plan.site}
                           </p>
 
-                          <h2 className="mt-2 text-2xl font-medium tracking-[-0.035em]">
+                          <h2 className="mt-2 text-xl font-medium tracking-[-0.03em] sm:text-2xl sm:tracking-[-0.035em]">
                             {plan.name}
                           </h2>
                         </div>
@@ -202,10 +215,10 @@ export default function PlansPage() {
                         </Link>
                       </div>
                     </div>
-                  </article>
+                  </motion.article>
                 );
               })}
-            </div>
+            </StaggerList>
 
             {/* Empty / add another plan action */}
             <Link

@@ -8,6 +8,7 @@ import {
   ChevronRight,
   Location,
 } from "@/components/icons/terr-iq-icons";
+import { MobileSidebar } from "@/components/dashboard/mobile-nav";
 
 const assessment = {
   location: "Ikeja, Lagos",
@@ -83,7 +84,9 @@ export default function AssessmentResultPage() {
     <div className="min-h-screen bg-[#F5F3ED] text-[#171A17]">
       <main className="min-h-screen">
         {/* Top bar */}
-        <header className="sticky top-0 z-30 flex h-[72px] items-center justify-between border-b border-[#D9D7CE] bg-[#F5F3ED]/95 px-6 backdrop-blur lg:px-10">
+        <header className="sticky top-0 z-30 flex h-[72px] items-center justify-between border-b border-[#D9D7CE] bg-[#F5F3ED]/95 pl-16 pr-6 backdrop-blur lg:px-10">
+          <MobileSidebar />
+
           <Link
             href="/dashboard/assess"
             className="group inline-flex items-center gap-3 text-sm text-[#6D7069] transition hover:text-[#171A17]"

@@ -7,6 +7,7 @@ import {
   ArrowUpRight,
   ChevronRight,
 } from "@/components/icons/terr-iq-icons";
+import { MobileSidebar } from "@/components/dashboard/mobile-nav";
 
 const plan = {
   name: "Ikeja Warehouse Resilience Plan",
@@ -72,7 +73,9 @@ export default function PlanDetailPage() {
     <div className="min-h-screen bg-[#F5F3ED] text-[#171A17]">
       <main className="min-h-screen">
         {/* Header */}
-        <header className="sticky top-0 z-30 flex h-[72px] items-center border-b border-[#D9D7CE] bg-[#F5F3ED]/95 px-6 backdrop-blur lg:px-10">
+        <header className="sticky top-0 z-30 flex h-[72px] items-center border-b border-[#D9D7CE] bg-[#F5F3ED]/95 pl-16 pr-6 backdrop-blur lg:px-10">
+          <MobileSidebar />
+
           <Link
             href="/dashboard/plans"
             className="group inline-flex items-center gap-3 text-sm text-[#6D7069] transition hover:text-[#171A17]"

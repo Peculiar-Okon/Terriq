@@ -4,6 +4,7 @@ import { FormEvent, Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { TerrIQLogo } from "@/components/brands/terriq-logo";
 import { createClient } from "@/lib/supabase/client";
+import { AuthReveal } from "@/components/auth/auth-reveal";
 
 const passwordRules = {
   length: /.{8,}/,
@@ -66,12 +67,10 @@ function ResetPasswordContent() {
   const passwordMessage = getPasswordMessage(password);
 
   const passwordsMatch =
-    confirmPassword.length > 0 &&
-    password === confirmPassword;
+    confirmPassword.length > 0 && password === confirmPassword;
 
   const passwordMismatch =
-    confirmPassword.length > 0 &&
-    password !== confirmPassword;
+    confirmPassword.length > 0 && password !== confirmPassword;
 
   async function verifyCode(e: FormEvent) {
     e.preventDefault();
@@ -141,33 +140,34 @@ function ResetPasswordContent() {
     <main className="flex min-h-screen items-center justify-center bg-[#F5F3ED] px-6">
       <div className="w-full max-w-md">
 
-        <div className="mb-10">
+        <AuthReveal className="mb-10">
           <TerrIQLogo />
-        </div>
+        </AuthReveal>
 
         {!verified ? (
           <>
-            <div>
+            <AuthReveal index={1}>
               <p className="text-sm uppercase tracking-[0.15em] text-[#6B746E]">
                 Reset password
               </p>
 
-              <h1 className="mt-3 text-4xl font-medium tracking-[-0.04em] text-[#1D2822]">
+              <h1 className="mt-3 text-2xl font-medium tracking-[-0.03em] text-[#1D2822] sm:text-4xl sm:tracking-[-0.04em]">
                 Verify your email.
               </h1>
 
-              <p className="mt-3 text-sm leading-6 text-[#6B746E]">
+              <p className="mt-2 text-sm leading-6 text-[#6B746E] sm:mt-3">
                 Enter the 6-digit code we sent to{" "}
                 <span className="font-medium text-[#23483A]">
                   {email}
                 </span>
                 .
               </p>
-            </div>
+            </AuthReveal>
 
+            <AuthReveal index={2}>
             <form
               onSubmit={verifyCode}
-              className="mt-8 space-y-5"
+              className="mt-6 space-y-4 sm:mt-8 sm:space-y-5"
             >
               <div>
                 <label
@@ -184,13 +184,11 @@ function ResetPasswordContent() {
                   maxLength={6}
                   value={otp}
                   onChange={(e) =>
-                    setOtp(
-                      e.target.value.replace(/\D/g, "")
-                    )
+                    setOtp(e.target.value.replace(/\D/g, ""))
                   }
                   placeholder="000000"
                   required
-                  className="h-14 w-full rounded-xl border border-[#D7D8D1] bg-white px-4 text-center text-xl tracking-[0.35em] text-[#1D2822] outline-none transition placeholder:text-[#B0B5B1] focus:border-[#23483A] focus:ring-2 focus:ring-[#23483A]/10"
+                  className="h-12 w-full rounded-xl border border-[#D7D8D1] bg-white px-4 text-center text-lg tracking-[0.3em] text-[#1D2822] outline-none transition placeholder:text-[#B0B5B1] focus:border-[#23483A] focus:ring-2 focus:ring-[#23483A]/10 sm:h-14 sm:text-xl sm:tracking-[0.35em]"
                 />
               </div>
 
@@ -205,32 +203,34 @@ function ResetPasswordContent() {
               <button
                 type="submit"
                 disabled={loading}
-                className="h-12 w-full rounded-xl bg-[#23483A] text-sm font-medium text-white transition hover:bg-[#1B392E] disabled:cursor-not-allowed disabled:opacity-60"
+                className="h-11 w-full rounded-xl bg-[#23483A] text-sm font-medium text-white transition hover:bg-[#1B392E] disabled:cursor-not-allowed disabled:opacity-60 sm:h-12"
               >
                 {loading ? "Verifying..." : "Verify code"}
               </button>
             </form>
+            </AuthReveal>
           </>
         ) : (
           <>
-            <div>
+            <AuthReveal index={1}>
               <p className="text-sm uppercase tracking-[0.15em] text-[#6B746E]">
                 New password
               </p>
 
-              <h1 className="mt-3 text-4xl font-medium tracking-[-0.04em] text-[#1D2822]">
+              <h1 className="mt-3 text-2xl font-medium tracking-[-0.03em] text-[#1D2822] sm:text-4xl sm:tracking-[-0.04em]">
                 Create a new password.
               </h1>
 
-              <p className="mt-3 text-sm leading-6 text-[#6B746E]">
+              <p className="mt-2 text-sm leading-6 text-[#6B746E] sm:mt-3">
                 Choose a strong password to keep your TerrIQ account
                 secure.
               </p>
-            </div>
+            </AuthReveal>
 
+            <AuthReveal index={2}>
             <form
               onSubmit={updatePassword}
-              className="mt-8 space-y-5"
+              className="mt-6 space-y-4 sm:mt-8 sm:space-y-5"
             >
               {/* Password */}
               <div>
@@ -245,13 +245,11 @@ function ResetPasswordContent() {
                   id="password"
                   type="password"
                   value={password}
-                  onChange={(e) =>
-                    setPassword(e.target.value)
-                  }
+                  onChange={(e) => setPassword(e.target.value)}
                   placeholder="Create a strong password"
                   required
                   minLength={8}
-                  className={`h-12 w-full rounded-xl border bg-white px-4 text-sm text-[#1D2822] outline-none transition placeholder:text-[#9CA39D] focus:ring-2 focus:ring-[#23483A]/10 ${
+                  className={`h-11 w-full rounded-xl border bg-white px-4 text-sm text-[#1D2822] outline-none transition placeholder:text-[#9CA39D] focus:ring-2 focus:ring-[#23483A]/10 sm:h-12 ${
                     passwordMessage
                       ? "border-[#C95C54] focus:border-[#C95C54]"
                       : "border-[#D7D8D1] focus:border-[#23483A]"
@@ -291,7 +289,7 @@ function ResetPasswordContent() {
                   }
                   placeholder="Enter your password again"
                   required
-                  className={`h-12 w-full rounded-xl border bg-white px-4 text-sm text-[#1D2822] outline-none transition placeholder:text-[#9CA39D] focus:ring-2 focus:ring-[#23483A]/10 ${
+                  className={`h-11 w-full rounded-xl border bg-white px-4 text-sm text-[#1D2822] outline-none transition placeholder:text-[#9CA39D] focus:ring-2 focus:ring-[#23483A]/10 sm:h-12 ${
                     passwordMismatch
                       ? "border-[#C95C54] focus:border-[#C95C54]"
                       : passwordsMatch
@@ -328,13 +326,14 @@ function ResetPasswordContent() {
                   !isStrongPassword(password) ||
                   password !== confirmPassword
                 }
-                className="h-12 w-full rounded-xl bg-[#23483A] text-sm font-medium text-white transition hover:bg-[#1B392E] disabled:cursor-not-allowed disabled:opacity-50"
+                className="h-11 w-full rounded-xl bg-[#23483A] text-sm font-medium text-white transition hover:bg-[#1B392E] disabled:cursor-not-allowed disabled:opacity-50 sm:h-12"
               >
                 {loading
                   ? "Updating password..."
                   : "Update password"}
               </button>
             </form>
+            </AuthReveal>
           </>
         )}
       </div>

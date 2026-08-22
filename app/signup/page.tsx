@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { TerrIQLogo } from "@/components/brands/terriq-logo";
 import { createClient } from "@/lib/supabase/client";
+import { AuthReveal } from "@/components/auth/auth-reveal";
 
 const passwordRules = {
   length: /.{8,}/,
@@ -117,9 +118,11 @@ export default function SignupPage() {
     <main className="flex min-h-screen bg-[#F5F3ED]">
       {/* Left side */}
       <div className="hidden w-1/2 bg-[#23483A] p-10 lg:flex lg:flex-col lg:justify-between">
-        <TerrIQLogo dark />
+        <AuthReveal>
+          <TerrIQLogo dark />
+        </AuthReveal>
 
-        <div className="max-w-md">
+        <AuthReveal index={1} className="max-w-md">
           <p className="text-sm uppercase tracking-[0.15em] text-[#A9B9AF]">
             Set up your workspace
           </p>
@@ -133,37 +136,39 @@ export default function SignupPage() {
             identify what they could affect, and decide what to do before they become
             costly problems.
           </p>
-        </div>
+        </AuthReveal>
 
-        <p className="text-xs text-[#A9B9AF]">
-          For sites, businesses, and the decisions around them.
-        </p>
+        <AuthReveal index={2}>
+          <p className="text-xs text-[#A9B9AF]">
+            For sites, businesses, and the decisions around them.
+          </p>
+        </AuthReveal>
       </div>
-      
 
       {/* Right side */}
       <div className="flex w-full items-center justify-center px-6 py-12 lg:w-1/2">
         <div className="w-full max-w-md">
-          <div className="mb-10 lg:hidden">
+          <AuthReveal className="mb-10 lg:hidden">
             <TerrIQLogo />
-          </div>
+          </AuthReveal>
 
-          <div>
+          <AuthReveal index={1}>
             <p className="text-sm uppercase tracking-[0.15em] text-[#6B746E]">
               Create account
             </p>
 
-            <h2 className="mt-3 text-4xl font-medium tracking-[-0.04em] text-[#1D2822]">
+            <h2 className="mt-3 text-2xl font-medium tracking-[-0.03em] text-[#1D2822] sm:text-4xl sm:tracking-[-0.04em]">
               Welcome to TerrIQ.
             </h2>
 
-            <p className="mt-3 text-sm leading-6 text-[#6B746E]">
+            <p className="mt-2 text-sm leading-6 text-[#6B746E] sm:mt-3">
               Create your account and start understanding your
               environment.
             </p>
-          </div>
+          </AuthReveal>
 
-          <form onSubmit={handleSignup} className="mt-8 space-y-5">
+          <AuthReveal index={2}>
+          <form onSubmit={handleSignup} className="mt-6 space-y-4 sm:mt-8 sm:space-y-5">
             {/* Name */}
             <div>
               <label
@@ -180,7 +185,7 @@ export default function SignupPage() {
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Your name"
                 required
-                className="h-12 w-full rounded-xl border border-[#D7D8D1] bg-white px-4 text-sm text-[#1D2822] outline-none transition placeholder:text-[#9CA39D] focus:border-[#23483A] focus:ring-2 focus:ring-[#23483A]/10"
+                className="h-11 w-full rounded-xl border border-[#D7D8D1] bg-white px-4 text-sm text-[#1D2822] outline-none transition placeholder:text-[#9CA39D] focus:border-[#23483A] focus:ring-2 focus:ring-[#23483A]/10 sm:h-12"
               />
             </div>
 
@@ -200,7 +205,7 @@ export default function SignupPage() {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="you@example.com"
                 required
-                className="h-12 w-full rounded-xl border border-[#D7D8D1] bg-white px-4 text-sm text-[#1D2822] outline-none transition placeholder:text-[#9CA39D] focus:border-[#23483A] focus:ring-2 focus:ring-[#23483A]/10"
+                className="h-11 w-full rounded-xl border border-[#D7D8D1] bg-white px-4 text-sm text-[#1D2822] outline-none transition placeholder:text-[#9CA39D] focus:border-[#23483A] focus:ring-2 focus:ring-[#23483A]/10 sm:h-12"
               />
             </div>
 
@@ -221,7 +226,7 @@ export default function SignupPage() {
                 placeholder="Create a strong password"
                 required
                 minLength={8}
-                className={`h-12 w-full rounded-xl border bg-white px-4 text-sm text-[#1D2822] outline-none transition placeholder:text-[#9CA39D] focus:ring-2 focus:ring-[#23483A]/10 ${
+                className={`h-11 w-full rounded-xl border bg-white px-4 text-sm text-[#1D2822] outline-none transition placeholder:text-[#9CA39D] focus:ring-2 focus:ring-[#23483A]/10 sm:h-12 ${
                   passwordMessage
                     ? "border-[#C95C54] focus:border-[#C95C54]"
                     : "border-[#D7D8D1] focus:border-[#23483A]"
@@ -261,7 +266,7 @@ export default function SignupPage() {
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 placeholder="Enter your password again"
                 required
-                className={`h-12 w-full rounded-xl border bg-white px-4 text-sm text-[#1D2822] outline-none transition placeholder:text-[#9CA39D] focus:ring-2 focus:ring-[#23483A]/10 ${
+                className={`h-11 w-full rounded-xl border bg-white px-4 text-sm text-[#1D2822] outline-none transition placeholder:text-[#9CA39D] focus:ring-2 focus:ring-[#23483A]/10 sm:h-12 ${
                   passwordMismatch
                     ? "border-[#C95C54] focus:border-[#C95C54]"
                     : passwordsMatch
@@ -296,21 +301,24 @@ export default function SignupPage() {
             <button
               type="submit"
               disabled={loading}
-              className="h-12 w-full rounded-xl bg-[#23483A] text-sm font-medium text-white transition hover:bg-[#1B392E] disabled:cursor-not-allowed disabled:opacity-60"
+              className="h-11 w-full rounded-xl bg-[#23483A] text-sm font-medium text-white transition hover:bg-[#1B392E] disabled:cursor-not-allowed disabled:opacity-60 sm:h-12"
             >
               {loading ? "Creating account..." : "Create account"}
             </button>
           </form>
+          </AuthReveal>
 
-          <p className="mt-6 text-center text-sm text-[#6B746E]">
-            Already have an account?{" "}
-            <Link
-              href="/login"
-              className="font-medium text-[#23483A] hover:underline"
-            >
-              Sign in
-            </Link>
-          </p>
+          <AuthReveal index={3}>
+            <p className="mt-6 text-center text-sm text-[#6B746E]">
+              Already have an account?{" "}
+              <Link
+                href="/login"
+                className="font-medium text-[#23483A] hover:underline"
+              >
+                Sign in
+              </Link>
+            </p>
+          </AuthReveal>
         </div>
       </div>
     </main>
